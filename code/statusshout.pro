@@ -1,36 +1,39 @@
+# Copyright (c) 2012 Nokia Corporation.
+
+# Basic Qt configuration
+QT += declarative
+CONFIG += qt qt-components
+# If your application uses the Qt Mobility libraries, uncomment the following
+# lines and add the respective components to the MOBILITY variable.
+#MOBILITY += multimedia
+
+SOURCES += loadhelper.cpp main.cpp
+HEADERS += loadhelper.h
+
+# Version number & version string definition (for using it inside the app)
+VERSION = 0.0.1
+VERSTR = '\\"$${VERSION}\\"'
+DEFINES += VER=\"$${VERSTR}\"
+
 # Add more folders to ship with the application, here
-folder_01.source = qml/statusshout
-folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
+qml_sources.source = qml/statusshout
+qml_sources.target = qml
+DEPLOYMENTFOLDERS = qml_sources
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-symbian:TARGET.UID3 = 0xE0C9633A
-
-# Smart Installer package's UID
-# This UID is from the protected range and therefore the package will
-# fail to install if self-signed. By default qmake uses the unprotected
-# range value if unprotected UID is defined for the application and
-# 0x2002CCCF value if protected UID is given to the application
-#symbian:DEPLOYMENT.installer_header = 0x2002CCCF
-
-# Allow network access on Symbian
-symbian:TARGET.CAPABILITY += NetworkServices
-
-# If your application uses the Qt Mobility libraries, uncomment the following
-# lines and add the respective components to the MOBILITY variable.
-# CONFIG += mobility
-# MOBILITY +=
-
-# Speed up launching on MeeGo/Harmattan when using applauncherd daemon
-# CONFIG += qdeclarative-boostable
-
-# Add dependency to Symbian components
-CONFIG += qt-components
-
-# The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+# Platform specific files and configuration
+symbian {
+    # Allow network access on Symbian
+    TARGET.CAPABILITY += NetworkServices
+    TARGET.UID3 = 0xE0C9633A
+}
+contains(MEEGO_EDITION,harmattan) {
+    # Add these, if MeeGo support required.
+    # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
+    #CONFIG += qdeclarative-boostable
+}
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
