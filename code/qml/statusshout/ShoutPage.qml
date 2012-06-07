@@ -33,20 +33,38 @@ Page {
         id: titleBar
 
         width: parent.width
-        height: parent.height / 10
+        height: topBannerImg.height
 
-        Text {
-            id: shoutTitle
+        Image {
+            id: topBannerImg
+
+            width: parent.width
+            source: "gfx/top_banner_bg.png"
+        }
+
+        Image {
+            id: shoutToImg
 
             anchors {
                 left: parent.left
                 leftMargin: 10
                 verticalCenter: parent.verticalCenter
             }
-            color: platformStyle.colorNormalLight
-            font.pixelSize: platformStyle.fontSizeMedium
-            text: qsTr("Shouting to")
+            source: "gfx/shout_logo.png"
         }
+
+//        Text {
+//            id: shoutTitle
+//
+//            anchors {
+//                left: parent.left
+//                leftMargin: 10
+//                verticalCenter: parent.verticalCenter
+//            }
+//            color: platformStyle.colorNormalLight
+//            font.pixelSize: platformStyle.fontSizeMedium
+//            text: qsTr("Shouting to")
+//        }
 
         Image {
             id: fbImg
@@ -97,14 +115,98 @@ Page {
         }
     }
 
-    TextArea {
-        id: shoutText
-
-        anchors.top: titleBar.bottom
-        height: parent.height / 2
+    // The status input text component. Wrapped inside a white rectangle.
+    Rectangle {
+        anchors {
+            top: titleBar.bottom
+            bottom: bottomBanner.top
+        }
         width: parent.width
+
+        TextEdit {
+            id: shoutText
+
+            anchors.fill: parent
+            anchors.margins: 10
+            width: parent.width
+            wrapMode: Text.WordWrap
+            font.pixelSize: platformStyle.fontSizeLarge
+            color: "black"
+        }
     }
 
+    // Alternative multiline text input field, from QCC.
+//    TextArea {
+//        id: shoutText
+//
+//        anchors.top: titleBar.bottom
+//        anchors.bottom: bottomBanner.top
+//        width: parent.width
+//    }
+
+    Image {
+        id: bottomBanner
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+        }
+        source: "gfx/bottom_banner_bg.png"
+
+        Item {
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+            }
+            width: parent.width / 2
+
+            Image {
+                id: cameraImg
+
+                anchors.centerIn: parent
+                source: "gfx/camera.png"
+            }
+
+            Text {
+                anchors {
+                    left: cameraImg.left
+                    top: cameraImg.bottom
+                }
+                color: platformStyle.colorNormalLight
+                font.pixelSize: platformStyle.fontSizeMedium
+                font.family: "Impact"
+                text: qsTr("take a picture")
+            }
+        }
+
+        Item {
+            anchors {
+                verticalCenter: parent.verticalCenter
+                right: parent.right
+            }
+            width: parent.width / 2
+
+            Image {
+                id: galleryImg
+
+                anchors.centerIn: parent
+                source: "gfx/Gallery.png"
+            }
+
+            Text {
+                anchors {
+                    left: galleryImg.left
+                    top: galleryImg.bottom
+                }
+                color: platformStyle.colorNormalLight
+                font.pixelSize: platformStyle.fontSizeMedium
+                font.family: "Impact"
+                text: qsTr("+ from gallery")
+            }
+        }
+    }
+
+    // Success/Failure signal handlers for posting the message to FB/Twitter.
     Connections {
         target: twitter
 

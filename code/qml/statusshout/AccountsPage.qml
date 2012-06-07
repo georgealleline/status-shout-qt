@@ -21,6 +21,7 @@ Page {
         clip: true
         model: soMeModel
         delegate: listDelegate
+        interactive: false
 
         ScrollDecorator {
             flickableItem: accountsList

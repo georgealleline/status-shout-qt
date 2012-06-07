@@ -27,6 +27,7 @@ Page {
         }
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: platformStyle.fontSizeLarge
+        font.family: "Impact"
         text: qsTr("Status Shout!")
     }
 
