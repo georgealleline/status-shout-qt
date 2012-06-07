@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2012 Nokia Corporation.
+ */
+
 import QtQuick 1.1
 import com.nokia.symbian 1.1
 import SocialConnect 0.1
@@ -5,12 +9,22 @@ import SocialConnect 0.1
 PageStackWindow {
     id: window
 
-    initialPage: MainPage {tools: toolBarLayout}
     showStatusBar: true
     showToolBar: true
+    initialPage: ShoutPage {pageStack: pageStack;
+                            twitter: twitterConnection;
+                            facebook: facebookConnection}
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"), {pageStack: pageStack});
+        pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
+                       {pageStack: pageStack,
+                        webIf: webInterface,
+                        twitter: twitterConnection,
+                        facebook: facebookConnection});
+    }
+
+    WebInterface {
+        id: webInterface
     }
 
     TwitterConnection {
@@ -19,7 +33,7 @@ PageStackWindow {
         webInterface: webInterface
         consumerKey: "8X8HXL5PuNIPpuieYICVQ"
         consumerSecret: "GCJgN1mh4rtBjB8ZjDaOEoZ83hqbOyjufJThw50I"
-        callbackUrl: "http://projects.developer.nokia.com/socialconnect"
+        callbackUrl: "http://projects.developer.nokia.com/statusshout"
 
         onAuthenticateCompleted: console.log("TWITTER AUTHENTICATED!")
     }
