@@ -12,6 +12,7 @@ PageStackWindow {
     showStatusBar: true
     showToolBar: true
     initialPage: ShoutPage {pageStack: pageStack;
+                            webIf: webInterface;
                             twitter: twitterConnection;
                             facebook: facebookConnection}
 

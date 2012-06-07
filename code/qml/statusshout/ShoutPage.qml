@@ -10,6 +10,7 @@ Page {
     id: shoutPage
 
     property PageStack pageStack
+    property WebInterface webIf
     property TwitterConnection twitter
     property FacebookConnection facebook
 
@@ -136,7 +137,12 @@ Page {
         content: MenuLayout {
             MenuItem {
                 text: "Accounts"
-                onClicked: console.log("Accounts menu item clicked!")
+                onClicked: pageStack.push(Qt.resolvedUrl("AccountsPage.qml"),
+                                          {pageStack: pageStack,
+                                           webIf: webIf,
+                                           twitter: twitter,
+                                           facebook: facebook}
+                                          );
             }
 
             MenuItem {
@@ -151,27 +157,17 @@ Page {
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
-            onClicked: {
-                console.log("EXIT!");
-                Qt.quit();
-            }
+            onClicked: Qt.quit()
         }
 
         ToolButton {
-            id: shoutButton
-
             iconSource: "gfx/messaging.svg"
-            onClicked: {
-                __sendMessage();
-            }
+            onClicked: __sendMessage()
         }
 
         ToolButton {
             iconSource: "toolbar-menu"
-            onClicked: {
-                console.log("Open Menu!");
-                mainMenu.open();
-            }
+            onClicked: mainMenu.open()
         }
     }
 }
