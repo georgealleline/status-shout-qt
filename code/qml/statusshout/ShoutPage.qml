@@ -239,12 +239,7 @@ Page {
         content: MenuLayout {
             MenuItem {
                 text: "Accounts"
-                onClicked: pageStack.push(Qt.resolvedUrl("AccountsPage.qml"),
-                                          {pageStack: pageStack,
-                                           webIf: webIf,
-                                           twitter: twitter,
-                                           facebook: facebook}
-                                          );
+                onClicked: pageStack.push(accountsPageComp);
             }
 
             MenuItem {
@@ -253,6 +248,17 @@ Page {
                     pageStack.push(Qt.resolvedUrl("AboutPage.qml"), {pageStack: pageStack});
                 }
             }
+        }
+    }
+
+    Component {
+        id: accountsPageComp
+
+        AccountsPage {
+            pageStack: shoutPage.pageStack
+            webIf: shoutPage.webIf
+            twitter: shoutPage.twitter
+            facebook: shoutPage.facebook
         }
     }
 

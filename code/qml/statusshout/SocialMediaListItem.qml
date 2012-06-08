@@ -8,11 +8,13 @@ import com.nokia.symbian 1.1
 ListItem {
     id: socialMediaItem
 
-    property bool isConnected: false
-//    property alias imageSource: socialMediaIcon.source
-//    property string userName: ""
-
     width: childrenRect.width
+
+    property bool __authenticated: model.modelData.authenticated
+    property string __serviceName: model.modelData.serviceName
+    property string __userName: model.modelData.userName
+    property string __iconUrl: model.modelData.icon
+    property variant __service: model.modelData.service
 
     Image {
         id: socialMediaIcon
@@ -23,33 +25,36 @@ ListItem {
             top: paddingItem.top
             left: paddingItem.left
         }
-        source: model.icon
+        source: __iconUrl
     }
 
-    Column {
+    ListItemText {
+        id: titleText
+
         anchors {
             left: socialMediaIcon.right
             leftMargin: 15
-            top: paddingItem.top
+            top: __authenticated ? paddingItem.top : undefined
+            verticalCenter: __authenticated ? undefined : parent.verticalCenter
+        }
+        role: "Title"
+        color: platformStyle.colorNormalLight
+        text:  __authenticated
+               ? qsTr("Disconnect from ") + __serviceName
+               : qsTr("Connect to ") + __serviceName
+    }
+
+    ListItemText {
+        id: subtitleText
+
+        visible: __authenticated
+        anchors {
+            left: socialMediaIcon.right
+            leftMargin: 15
             bottom: paddingItem.bottom
         }
-
-        ListItemText {
-            id: titleText
-
-            role: "Title"
-            color: platformStyle.colorNormalLight
-            text: isConnected ? qsTr("Connect to " + model.name)
-                              : qsTr("Disconnect from " + model.name)
-        }
-
-        ListItemText {
-            id: subtitleText
-
-            role: "SubTitle"
-            color: platformStyle.colorNormalLight
-//            font.pixelSize: platformStyle.fontSizeSmall
-            text: qsTr("Connected as " + model.userName)
-        }
+        role: "SubTitle"
+        color: platformStyle.colorNormalLight
+        text: qsTr("Connected as ") + __userName
     }
 }

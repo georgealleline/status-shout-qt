@@ -4,7 +4,6 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import QtWebKit 1.0
 import SocialConnect 0.1
 
 Page {
@@ -122,6 +121,9 @@ Page {
         onAuthenticateCompleted: {
             webViewLoader.sourceComponent = undefined;
             if (success) {
+                // Save the access token etc.
+                twitter.storeCredentials();
+                // Let the user continue!
                 twitterButton.visible = false;
                 twitterConnected.visible = true;
                 continueButton.enabled = true;
@@ -134,6 +136,7 @@ Page {
         onAuthenticateCompleted: {
             webViewLoader.sourceComponent = undefined;
             if (success) {
+                facebook.storeCredentials();
                 facebookButton.visible = false;
                 facebookConnected.visible = true;
                 continueButton.enabled = true;
@@ -152,36 +155,9 @@ Page {
     Component {
         id: webView
 
-        Flickable {
-            id: webFlickable
-
-            property alias url: web.url
-
+        FlickableWebView {
             height: webViewLoader.height
             width: webViewLoader.width
-            contentHeight: web.height
-            contentWidth: childrenRect.width
-            flickableDirection: Flickable.VerticalFlick
-            boundsBehavior: Flickable.StopAtBounds
-            clip: true
-
-            WebView {
-                id: web
-
-                preferredWidth: webViewLoader.width
-                preferredHeight: webViewLoader.height
-                onUrlChanged: webIf.url = url;
-
-                Component.onDestruction: {
-                    console.log("QML: Storing credentials, was authenticated: "
-                                + twitterConnection.authenticated)
-                    twitterConnection.storeCredentials();
-                }
-            }
-
-            ScrollDecorator {
-                flickableItem: webFlickable
-            }
         }
     }
 
@@ -195,7 +171,6 @@ Page {
 
         ToolButton {
             id: continueButton
-//            visible: isConnectedToSomething ???
             enabled: false
             text: qsTr("Continue")
             onClicked: {

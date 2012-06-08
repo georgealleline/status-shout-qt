@@ -17,11 +17,19 @@ PageStackWindow {
                             facebook: facebookConnection}
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
-                       {pageStack: pageStack,
-                        webIf: webInterface,
-                        twitter: twitterConnection,
-                        facebook: facebookConnection});
+        // Try to restore the saved credentials
+        twitterConnection.restoreCredentials();
+        facebookConnection.restoreCredentials();
+
+        // If none of the supported SoMe services proves to be authenticated,
+        // present the LaunchWizardPage to the user.
+        if (!facebookConnection.authenticated && !twitterConnection.authenticated) {
+            pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
+                           {pageStack: pageStack,
+                               webIf: webInterface,
+                               twitter: twitterConnection,
+                               facebook: facebookConnection});
+        }
     }
 
     WebInterface {
