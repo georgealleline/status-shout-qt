@@ -116,12 +116,13 @@ Page {
     }
 
     // The status input text component. Wrapped inside a white rectangle.
-    Rectangle {
+    Image {
         anchors {
             top: titleBar.bottom
             bottom: bottomBanner.top
         }
         width: parent.width
+        source: "gfx/text_box_pattern.png"
 
         TextEdit {
             id: shoutText
