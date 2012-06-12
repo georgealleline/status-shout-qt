@@ -19,103 +19,35 @@ Page {
         var message = shoutText.text;
         console.log("SEND, message: " + message);
 
-        if (twitterSwitch.checked) {
+        if (titleBar.sendToTwitter) {
             twitter.postMessage({"text": message});
         }
-        if (fbSwitch.checked) {
+        if (titleBar.sendToFacebook) {
             facebook.postMessage({"text": message});
         }
     }
 
     // Shout titlebar. Shows Switches to enable / disable sending status
     // update to different services.
-    Item {
+    ShoutTitleBar {
         id: titleBar
 
         width: parent.width
-        height: topBannerImg.height
+        facebook: shoutPage.facebook
+        twitter: shoutPage.twitter
 
-        Image {
-            id: topBannerImg
-
-            width: parent.width
-            source: "gfx/top_banner_bg.png"
+        onConnectFacebook: {
+            webViewLoader.sourceComponent = webView;
+            facebook.authenticate();
         }
 
-        Image {
-            id: shoutToImg
-
-            anchors {
-                left: parent.left
-                leftMargin: 10
-                verticalCenter: parent.verticalCenter
-            }
-            source: "gfx/shout_logo.png"
-        }
-
-//        Text {
-//            id: shoutTitle
-//
-//            anchors {
-//                left: parent.left
-//                leftMargin: 10
-//                verticalCenter: parent.verticalCenter
-//            }
-//            color: platformStyle.colorNormalLight
-//            font.pixelSize: platformStyle.fontSizeMedium
-//            text: qsTr("Shouting to")
-//        }
-
-        Image {
-            id: fbImg
-
-            anchors {
-                right: fbSwitch.left
-                verticalCenter: parent.verticalCenter
-            }
-            width: 32
-            height: 32
-            opacity: fbSwitch.checked ? 1 : 0.5
-            source: "gfx/f_logo.png"
-        }
-
-        Switch {
-            id: fbSwitch
-
-            anchors {
-                right: twitterImg.left
-                rightMargin: 10
-                verticalCenter: parent.verticalCenter
-            }
-            checked: true
-        }
-
-        Image {
-            id: twitterImg
-
-            anchors {
-                right: twitterSwitch.left
-                verticalCenter: parent.verticalCenter
-            }
-            width: 32
-            height: 32
-            opacity: twitterSwitch.checked ? 1 : 0.5
-            source: "gfx/t_logo.png"
-        }
-
-        Switch {
-            id: twitterSwitch
-
-            anchors {
-                right: parent.right
-                rightMargin: 10
-                verticalCenter: parent.verticalCenter
-            }
-            checked: true
+        onConnectTwitter: {
+            webViewLoader.sourceComponent = webView;
+            twitter.authenticate();
         }
     }
 
-    // The status input text component. Wrapped inside a white rectangle.
+    // The status input text component. Wrapped inside a background image.
     Image {
         anchors {
             top: titleBar.bottom
@@ -207,6 +139,34 @@ Page {
         }
     }
 
+    // Loader for the Web view to show the OAuth login.
+    Loader {
+        id: webViewLoader
+        anchors.centerIn: parent
+        width: parent.width * 4/5
+        height: parent.height * 4/5
+
+        Component {
+            id: webView
+
+            FlickableWebView {
+                height: webViewLoader.height
+                width: webViewLoader.width
+                onUrlChanged: webIf.url = url   // TODO: NEEDED???
+            }
+        }
+    }
+
+    Connections {
+        target: webIf
+
+        onUrlChanged: {
+            if (webViewLoader.item) {
+                webViewLoader.item.url = url;
+            }
+        }
+    }
+
     // Success/Failure signal handlers for posting the message to FB/Twitter.
     Connections {
         target: twitter
@@ -217,6 +177,13 @@ Page {
                 shoutText.text = "";
             } else {
                 console.log("Posting message to Twitter FAILED!");
+            }
+        }
+
+        onAuthenticateCompleted: {
+            webViewLoader.sourceComponent = undefined;
+            if (success) {
+                twitter.storeCredentials();
             }
         }
     }
@@ -230,6 +197,13 @@ Page {
                 shoutText.text = "";
             } else {
                 console.log("Posting message to Facebook FAILED!");
+            }
+        }
+
+        onAuthenticateCompleted: {
+            webViewLoader.sourceComponent = undefined;
+            if (success) {
+                facebook.storeCredentials();
             }
         }
     }
