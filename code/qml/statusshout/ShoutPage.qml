@@ -93,22 +93,13 @@ Page {
             }
             width: parent.width / 2
 
-            Image {
-                id: cameraImg
+            ImageButton {
+                id: cameraButton
 
                 anchors.centerIn: parent
                 source: "gfx/camera.png"
-            }
-
-            Text {
-                anchors {
-                    left: cameraImg.left
-                    top: cameraImg.bottom
-                }
-                color: platformStyle.colorNormalLight
-                font.pixelSize: platformStyle.fontSizeMedium
-                font.family: "Impact"
                 text: qsTr("take a picture")
+                onClicked: console.log("TAKE A PICTURE!")
             }
         }
 
@@ -119,22 +110,13 @@ Page {
             }
             width: parent.width / 2
 
-            Image {
-                id: galleryImg
+            ImageButton {
+                id: galleryButton
 
                 anchors.centerIn: parent
-                source: "gfx/Gallery.png"
-            }
-
-            Text {
-                anchors {
-                    left: galleryImg.left
-                    top: galleryImg.bottom
-                }
-                color: platformStyle.colorNormalLight
-                font.pixelSize: platformStyle.fontSizeMedium
-                font.family: "Impact"
+                source: "gfx/gallery.png"
                 text: qsTr("+ from gallery")
+                onClicked: console.log("SELECT FROM GALLERY!")
             }
         }
     }
