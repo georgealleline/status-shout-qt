@@ -37,12 +37,12 @@ Page {
         twitter: shoutPage.twitter
 
         onConnectFacebook: {
-            webViewLoader.sourceComponent = webView;
+            webViewLoader.load();
             facebook.authenticate();
         }
 
         onConnectTwitter: {
-            webViewLoader.sourceComponent = webView;
+            webViewLoader.load();
             twitter.authenticate();
         }
     }
@@ -122,31 +122,14 @@ Page {
     }
 
     // Loader for the Web view to show the OAuth login.
-    Loader {
+    WebViewLoader {
         id: webViewLoader
+
+        webIf: shoutPage.webIf
+
         anchors.centerIn: parent
-        width: parent.width * 4/5
-        height: parent.height * 4/5
-
-        Component {
-            id: webView
-
-            FlickableWebView {
-                height: webViewLoader.height
-                width: webViewLoader.width
-                onUrlChanged: webIf.url = url   // TODO: NEEDED???
-            }
-        }
-    }
-
-    Connections {
-        target: webIf
-
-        onUrlChanged: {
-            if (webViewLoader.item) {
-                webViewLoader.item.url = url;
-            }
-        }
+        width: parent.width * 9/10
+        height: parent.height * 9/10
     }
 
     // Success/Failure signal handlers for posting the message to FB/Twitter.
@@ -163,7 +146,7 @@ Page {
         }
 
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             if (success) {
                 twitter.storeCredentials();
             }
@@ -183,7 +166,7 @@ Page {
         }
 
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             if (success) {
                 facebook.storeCredentials();
             }

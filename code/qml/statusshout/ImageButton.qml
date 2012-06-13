@@ -3,7 +3,6 @@
  */
 
 import QtQuick 1.1
-//import com.nokia.symbian 1.1
 
 Item {
     id: imageButton
@@ -13,8 +12,8 @@ Item {
 
     signal clicked
 
-    width: childrenRect.width + 6
-    height: childrenRect.height + 6
+    width: container.width + 8
+    height: container.height + 8
 
     BorderImage {
         id: highlight
@@ -56,14 +55,12 @@ Item {
         onClicked: imageButton.clicked()
     }
 
-    states: [
-        State {
-            name: "pressed"
-            when: ma.pressed
-            PropertyChanges { target: highlight; opacity: 0.80 }
-            PropertyChanges { target: container; scale: 0.95 }
-        }
-    ]
+    states: State {
+        name: "pressed"
+        when: ma.pressed
+        PropertyChanges { target: highlight; opacity: 0.80 }
+        PropertyChanges { target: container; scale: 0.95 }
+    }
 
     transitions: Transition {
         reversible: true

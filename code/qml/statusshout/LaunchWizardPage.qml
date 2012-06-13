@@ -57,7 +57,7 @@ Page {
         }
         text: qsTr("Connect to Facebook")
         onClicked: {
-            webViewLoader.sourceComponent = webView;
+            webViewLoader.load();
             // TODO! Check the authenticate return value!
             facebook.authenticate();
         }
@@ -86,7 +86,7 @@ Page {
         }
         text: qsTr("Connect to Twitter")
         onClicked: {
-            webViewLoader.sourceComponent = webView;
+            webViewLoader.load();
             // TODO! Check the authenticate return value!
             twitter.authenticate();
         }
@@ -106,20 +106,9 @@ Page {
     }
 
     Connections {
-        target: webIf
-
-        onUrlChanged: {
-            console.log("webIf URL changed to: " + url)
-            if (webViewLoader.item) {
-                webViewLoader.item.url = url;
-            }
-        }
-    }
-
-    Connections {
         target: twitter
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             if (success) {
                 // Save the access token etc.
                 twitter.storeCredentials();
@@ -134,7 +123,7 @@ Page {
     Connections {
         target: facebook
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             if (success) {
                 facebook.storeCredentials();
                 facebookButton.visible = false;
@@ -144,38 +133,27 @@ Page {
         }
     }
 
-    Loader {
+    WebViewLoader {
         id: webViewLoader
+
+        webIf: launchWizardPage.webIf
+
         anchors.centerIn: parent
-        width: parent.width * 4/5
-        height: parent.height * 4/5
-    }
-
-    // WebView to show the OAuth login, if needed.
-    Component {
-        id: webView
-
-        FlickableWebView {
-            height: webViewLoader.height
-            width: webViewLoader.width
-        }
+        width: parent.width * 9/10
+        height: parent.height * 9/10
     }
 
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
-            onClicked: {
-                Qt.quit();
-            }
+            onClicked: Qt.quit()
         }
 
         ToolButton {
             id: continueButton
             enabled: false
             text: qsTr("Continue")
-            onClicked: {
-                launchWizardPage.pageStack.pop();
-            }
+            onClicked: launchWizardPage.pageStack.pop()
         }
     }
 }

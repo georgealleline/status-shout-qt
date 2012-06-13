@@ -46,30 +46,20 @@ Page {
     }
 
     // Loader for the Web view to show the OAuth login.
-    Loader {
+    WebViewLoader {
         id: webViewLoader
+
+        webIf: accountsPage.webIf
+
         anchors.centerIn: parent
-        width: parent.width * 4/5
-        height: parent.height * 4/5
-    }
-
-    // The WebInterface url has to be bound to the web view's url
-    // property for the SocialConnection client to work properly.
-    Connections {
-        target: webIf
-
-        onUrlChanged: {
-            console.log("webIf URL changed to: " + url)
-            if (webViewLoader.item) {
-                webViewLoader.item.url = url;
-            }
-        }
+        width: parent.width * 9/10
+        height: parent.height * 9/10
     }
 
     Connections {
         target: twitter
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             console.log("AccountsPage - Twitter Login success: " + success);
             if (success) {
                 twitter.storeCredentials();
@@ -80,20 +70,11 @@ Page {
     Connections {
         target: facebook
         onAuthenticateCompleted: {
-            webViewLoader.sourceComponent = undefined;
+            webViewLoader.unload();
             console.log("AccountsPage - Facebook Login success: " + success);
             if (success) {
                 facebook.storeCredentials();
             }
-        }
-    }
-
-    Component {
-        id: webView
-
-        FlickableWebView {
-            height: webViewLoader.height
-            width: webViewLoader.width
         }
     }
 
@@ -109,10 +90,9 @@ Page {
                     __service.cancel();
                     __service.deauthenticate();
                     __service.removeCredentials();
-                    webViewLoader.sourceComponent = undefined;
                 } else {
                     console.log("AUTHENTICATE!");
-                    webViewLoader.sourceComponent = webView;
+                    webViewLoader.load();
                     // TODO! Check the authenticate return value!
                     __service.authenticate();
                 }
@@ -128,8 +108,6 @@ Page {
                 // are being cancelled, before backing.
                 twitter.cancel();
                 facebook.cancel();
-                // Remove the webview from eating up the scarse memory!
-                webViewLoader.sourceComponent = undefined;
                 accountsPage.pageStack.pop();
             }
         }
