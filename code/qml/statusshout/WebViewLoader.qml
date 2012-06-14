@@ -7,9 +7,9 @@ import com.nokia.symbian 1.1
 import SocialConnect 0.1
 import QtWebKit 1.0
 
-// Loader for the Web view to show the OAuth login. This QML Element should
-// used through the load() & unload() functions, whenever the WebView should be
-// available / discarded.
+// Loader for the Web view to show the OAuth login. The loader will handle
+// creating / deleting the WebView automatically based on the WebInterface's
+// demand (i.e. onActiveChanged).
 Loader {
     id: webViewLoader
 
@@ -18,20 +18,22 @@ Loader {
     // This property _MUST_ be set!
     property WebInterface webIf
 
-    function load() {
-        webViewLoader.sourceComponent = webView;
-    }
-
-    function unload() {
-        webViewLoader.sourceComponent = undefined;
-    }
-
     Connections {
         target: webIf
 
         onUrlChanged: {
             if (webViewLoader.item) {
                 webViewLoader.item.url = url;
+            }
+        }
+
+        onActiveChanged: {
+            console.debug("active = " + active);
+
+            if (active) {
+                webViewLoader.sourceComponent = webView;
+            } else {
+                webViewLoader.sourceComponent = undefined;
             }
         }
     }
@@ -42,31 +44,49 @@ Loader {
     Component {
         id: webView
 
-        Flickable {
-            id: webFlickable
-
+        Item {
             property alias url: web.url
 
-            contentHeight: web.height
-            contentWidth: web.width
-            flickableDirection: Flickable.VerticalFlick
-            boundsBehavior: Flickable.StopAtBounds
-            clip: true
+            // Fading Rectangle.
+            Rectangle {
+                anchors.fill: parent
+                color: "black"
+                opacity: 0.7
 
-            WebView {
-                id: web
-
-                preferredWidth: webViewLoader.width
-                preferredHeight: webViewLoader.height
-                onUrlChanged: webIf.url = url;
-
-                Component.onDestruction: {
-                    console.log("Deleting WebView");
+                // Just to capture the clicks.
+                MouseArea {
+                    anchors.fill: parent
                 }
             }
 
-            ScrollDecorator {
-                flickableItem: webFlickable
+            // Wrap the WebView inside a Flickable to be able to scroll the view.
+            Flickable {
+                id: webFlickable
+
+                anchors.centerIn: parent
+                width: parent.width * 9/10
+                height: parent.height * 9/10
+                contentHeight: web.height
+                contentWidth: web.width
+                flickableDirection: Flickable.VerticalFlick
+                boundsBehavior: Flickable.StopAtBounds
+                clip: true
+
+                WebView {
+                    id: web
+
+                    preferredWidth: webFlickable.width
+                    preferredHeight: webFlickable.height
+                    onUrlChanged: webIf.url = url;
+
+                    Component.onDestruction: {
+                        console.log("Deleting WebView");
+                    }
+                }
+
+                ScrollDecorator {
+                    flickableItem: webFlickable
+                }
             }
         }
     }

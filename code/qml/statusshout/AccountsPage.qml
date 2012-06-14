@@ -50,16 +50,12 @@ Page {
         id: webViewLoader
 
         webIf: accountsPage.webIf
-
-        anchors.centerIn: parent
-        width: parent.width * 9/10
-        height: parent.height * 9/10
+        anchors.fill: parent
     }
 
     Connections {
         target: twitter
         onAuthenticateCompleted: {
-            webViewLoader.unload();
             console.log("AccountsPage - Twitter Login success: " + success);
             if (success) {
                 twitter.storeCredentials();
@@ -70,7 +66,6 @@ Page {
     Connections {
         target: facebook
         onAuthenticateCompleted: {
-            webViewLoader.unload();
             console.log("AccountsPage - Facebook Login success: " + success);
             if (success) {
                 facebook.storeCredentials();
@@ -92,7 +87,6 @@ Page {
                     __service.removeCredentials();
                 } else {
                     console.log("AUTHENTICATE!");
-                    webViewLoader.load();
                     // TODO! Check the authenticate return value!
                     __service.authenticate();
                 }

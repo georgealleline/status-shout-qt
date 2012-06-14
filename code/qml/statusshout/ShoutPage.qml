@@ -37,12 +37,10 @@ Page {
         twitter: shoutPage.twitter
 
         onConnectFacebook: {
-            webViewLoader.load();
             facebook.authenticate();
         }
 
         onConnectTwitter: {
-            webViewLoader.load();
             twitter.authenticate();
         }
     }
@@ -126,10 +124,7 @@ Page {
         id: webViewLoader
 
         webIf: shoutPage.webIf
-
-        anchors.centerIn: parent
-        width: parent.width * 9/10
-        height: parent.height * 9/10
+        anchors.fill: parent
     }
 
     // Success/Failure signal handlers for posting the message to FB/Twitter.
@@ -146,7 +141,6 @@ Page {
         }
 
         onAuthenticateCompleted: {
-            webViewLoader.unload();
             if (success) {
                 twitter.storeCredentials();
             }
@@ -166,7 +160,6 @@ Page {
         }
 
         onAuthenticateCompleted: {
-            webViewLoader.unload();
             if (success) {
                 facebook.storeCredentials();
             }
