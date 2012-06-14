@@ -3,6 +3,7 @@
  */
 
 import QtQuick 1.1
+import com.nokia.symbian 1.1
 
 Item {
     id: imageButton
@@ -79,6 +80,9 @@ Item {
                 property: "opacity"
                 easing.type: Easing.Linear
                 duration: 100
+            }
+            ScriptAction {
+                script: privateStyle.play(Symbian.BasicButton)
             }
         }
     }
