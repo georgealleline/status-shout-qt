@@ -67,12 +67,18 @@ Item {
     Button {
         id: fbButton
 
-        visible: !facebook.authenticated
         anchors {
             right: twitterImg.left
             rightMargin: 10
             verticalCenter: parent.verticalCenter
         }
+
+        font {
+            family: "Impact"
+            pixelSize: platformStyle.fontSizeSmall
+        }
+
+        visible: !facebook.authenticated
         iconSource: fbImg.source
         text: qsTr("Connect")
         onClicked: connectFacebook()
@@ -105,12 +111,18 @@ Item {
     Button {
         id: twitterButton
 
-        visible: !twitter.authenticated
         anchors {
             right: parent.right
             rightMargin: 10
             verticalCenter: parent.verticalCenter
         }
+
+        font {
+            family: "Impact"
+            pixelSize: platformStyle.fontSizeSmall
+        }
+
+        visible: !twitter.authenticated
         iconSource: twitterImg.source
         text: qsTr("Connect")
         onClicked: connectTwitter()

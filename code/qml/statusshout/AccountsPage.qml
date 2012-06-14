@@ -81,12 +81,10 @@ Page {
 
             onClicked: {
                 if (__authenticated) {
-                    console.log("DE-AUTHENTICATE!");
                     __service.cancel();
                     __service.deauthenticate();
                     __service.removeCredentials();
                 } else {
-                    console.log("AUTHENTICATE!");
                     // TODO! Check the authenticate return value!
                     __service.authenticate();
                 }

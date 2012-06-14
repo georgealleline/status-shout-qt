@@ -27,6 +27,18 @@ Page {
         }
     }
 
+    function __sendMessageCompleted(success) {
+        dlgLoader.sourceComponent = msgPostedDlg;
+        dlgLoader.item.success = success;
+        dlgLoader.item.open();
+        if (success) {
+            console.log("  Posting message completed!");
+            shoutText.text = "";
+        } else {
+            console.log("  Posting message FAILED!");
+        }
+    }
+
     // Shout titlebar. Shows Switches to enable / disable sending status
     // update to different services.
     ShoutTitleBar {
@@ -96,7 +108,7 @@ Page {
 
                 anchors.centerIn: parent
                 source: "gfx/camera.png"
-                text: qsTr("take a picture")
+                text: qsTr("+ new picture")
                 onClicked: console.log("TAKE A PICTURE!")
             }
         }
@@ -132,12 +144,8 @@ Page {
         target: twitter
 
         onPostMessageCompleted: {
-            if (success) {
-                console.log("Posting message to Twitter completed!");
-                shoutText.text = "";
-            } else {
-                console.log("Posting message to Twitter FAILED!");
-            }
+            console.log("Posting message to Twitter completed! Success: " + success);
+            __sendMessageCompleted(success);
         }
 
         onAuthenticateCompleted: {
@@ -151,12 +159,8 @@ Page {
         target: facebook
 
         onPostMessageCompleted: {
-            if (success) {
-                console.log("Posting message to Facebook completed!");
-                shoutText.text = "";
-            } else {
-                console.log("Posting message to Facebook FAILED!");
-            }
+            console.log("Posting message to Facebook completed! Success: " + success);
+            __sendMessageCompleted(success);
         }
 
         onAuthenticateCompleted: {
@@ -195,10 +199,55 @@ Page {
         }
     }
 
+    Loader {
+        id: dlgLoader
+        anchors.centerIn: parent
+
+        Component {
+            id: msgPostedDlg
+
+            QueryDialog {
+                property bool success: false
+
+                anchors.centerIn: parent
+                titleText: success ? qsTr("Message sent!") : qsTr("Error")
+                message: success ? qsTr("Shout message was sent successfully!\n")
+                                 : qsTr("An error occured while trying to send "
+                                        + "the shout. Please try again.\n")
+
+                acceptButtonText: qsTr("Ok")
+                onAccepted: dlgLoader.sourceComponent = undefined
+            }
+        }
+
+        Component {
+            id: exitConfirmationDlg
+
+            QueryDialog {
+                titleText: qsTr("You have unshouted messages!")
+                message: qsTr("Do you really want to exit Status Shout? "
+                              + "(The shout will be lost.)\n")
+
+                acceptButtonText: qsTr("Yes")
+                rejectButtonText: qsTr("No")
+
+                onAccepted: Qt.quit()
+                onRejected: dlgLoader.sourceComponent = undefined
+            }
+        }
+    }
+
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
-            onClicked: Qt.quit()
+            onClicked: {
+                if (shoutText.text) {
+                    dlgLoader.sourceComponent = exitConfirmationDlg;
+                    dlgLoader.item.open();
+                } else {
+                    Qt.quit();
+                }
+            }
         }
 
         ToolButton {

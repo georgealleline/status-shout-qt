@@ -28,8 +28,6 @@ Loader {
         }
 
         onActiveChanged: {
-            console.debug("active = " + active);
-
             if (active) {
                 webViewLoader.sourceComponent = webView;
             } else {
