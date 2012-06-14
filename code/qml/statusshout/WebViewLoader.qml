@@ -17,6 +17,17 @@ Loader {
     // property for the SocialConnection client to work properly.
     // This property _MUST_ be set!
     property WebInterface webIf
+    property bool active: false
+
+    function load() {
+        webViewLoader.active = true;
+        webViewLoader.sourceComponent = webView;
+    }
+
+    function unload() {
+        webViewLoader.sourceComponent = undefined;
+        webViewLoader.active = false;
+    }
 
     Connections {
         target: webIf
@@ -29,9 +40,11 @@ Loader {
 
         onActiveChanged: {
             if (active) {
+                webViewLoader.active = true;
                 webViewLoader.sourceComponent = webView;
             } else {
                 webViewLoader.sourceComponent = undefined;
+                webViewLoader.active = false;
             }
         }
     }

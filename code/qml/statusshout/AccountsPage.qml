@@ -100,6 +100,7 @@ Page {
                 // are being cancelled, before backing.
                 twitter.cancel();
                 facebook.cancel();
+                webViewLoader.unload();
                 accountsPage.pageStack.pop();
             }
         }

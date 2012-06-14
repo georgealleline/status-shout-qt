@@ -44,7 +44,7 @@ PageStackWindow {
         consumerSecret: "GCJgN1mh4rtBjB8ZjDaOEoZ83hqbOyjufJThw50I"
         callbackUrl: "http://projects.developer.nokia.com/statusshout"
 
-        onAuthenticateCompleted: console.log("TWITTER AUTHENTICATED!")
+        onAuthenticateCompleted: console.log("TWITTER onAuthenticateCompleted! Success: " + success)
     }
 
     FacebookConnection {
@@ -54,7 +54,7 @@ PageStackWindow {
         permissions: ["publish_stream", "read_stream", "friends_status"]
         clientId: "399096860123557"
 
-        onAuthenticateCompleted: console.log("FB AUTHENTICATED!")
+        onAuthenticateCompleted: console.log("FACEBOOK onAuthenticateCompleted! Success: " + success)
     }
 
     ToolBarLayout {

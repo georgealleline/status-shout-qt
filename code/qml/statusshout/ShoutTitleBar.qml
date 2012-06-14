@@ -38,16 +38,17 @@ Item {
         source: "gfx/shout_logo.png"
     }
 
+    // Facebook related images & switches / buttons.
     Image {
         id: fbImg
 
-        visible: facebook.authenticated
         anchors {
             right: fbSwitch.left
             verticalCenter: parent.verticalCenter
         }
         width: 32
         height: 32
+        visible: facebook.authenticated
         opacity: fbSwitch.checked ? 1 : 0.5
         source: "gfx/f_logo.png"
     }
@@ -55,12 +56,12 @@ Item {
     Switch {
         id: fbSwitch
 
-        visible: facebook.authenticated
         anchors {
             right: twitterImg.left
             rightMargin: 10
             verticalCenter: parent.verticalCenter
         }
+        visible: facebook.authenticated
         checked: true
     }
 
@@ -84,6 +85,7 @@ Item {
         onClicked: connectFacebook()
     }
 
+    // Twitter related images & switches / buttons.
     Image {
         id: twitterImg
 
@@ -93,6 +95,7 @@ Item {
         }
         width: 32
         height: 32
+        visible: twitter.authenticated
         opacity: twitterSwitch.checked ? 1 : 0.5
         source: "gfx/t_logo.png"
     }
@@ -100,6 +103,7 @@ Item {
     Switch {
         id: twitterSwitch
 
+        visible: twitter.authenticated
         anchors {
             right: parent.right
             rightMargin: 10

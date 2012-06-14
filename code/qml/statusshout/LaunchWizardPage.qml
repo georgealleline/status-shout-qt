@@ -57,6 +57,7 @@ Page {
         }
         text: qsTr("Connect to Facebook")
         onClicked: {
+            busyIndicatorLoader.loading = true;
             // TODO! Check the authenticate return value!
             facebook.authenticate();
         }
@@ -85,6 +86,7 @@ Page {
         }
         text: qsTr("Connect to Twitter")
         onClicked: {
+            busyIndicatorLoader.loading = true;
             // TODO! Check the authenticate return value!
             twitter.authenticate();
         }
@@ -103,9 +105,40 @@ Page {
         imageSource: "gfx/t_logo.png"
     }
 
+    Loader {
+        id: busyIndicatorLoader
+
+        property bool loading: false
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 50
+        }
+        sourceComponent: loading ? busyIndicator : undefined
+
+        Component {
+            id: busyIndicator
+
+            BusyIndicator {
+                running: true
+                width: 100
+                height: 100
+            }
+        }
+    }
+
+    WebViewLoader {
+        id: webViewLoader
+
+        webIf: launchWizardPage.webIf
+        anchors.fill: parent
+    }
+
     Connections {
         target: twitter
         onAuthenticateCompleted: {
+            busyIndicatorLoader.loading = false;
             if (success) {
                 // Save the access token etc.
                 twitter.storeCredentials();
@@ -120,6 +153,7 @@ Page {
     Connections {
         target: facebook
         onAuthenticateCompleted: {
+            busyIndicatorLoader.loading = false;
             if (success) {
                 facebook.storeCredentials();
                 facebookButton.visible = false;
@@ -129,17 +163,18 @@ Page {
         }
     }
 
-    WebViewLoader {
-        id: webViewLoader
-
-        webIf: launchWizardPage.webIf
-        anchors.fill: parent
-    }
-
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
-            onClicked: Qt.quit()
+            onClicked: {
+                if (webViewLoader.active) {
+                    busyIndicatorLoader.loading = false;
+                    twitter.cancel();
+                    facebook.cancel();
+                } else {
+                    Qt.quit()
+                }
+            }
         }
 
         ToolButton {
