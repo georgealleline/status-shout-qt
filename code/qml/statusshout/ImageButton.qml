@@ -13,8 +13,8 @@ Item {
 
     signal clicked
 
-    width: container.width + 8
-    height: container.height + 8
+    width: container.width + 10
+    height: container.height + 10
 
     BorderImage {
         id: highlight
@@ -42,9 +42,10 @@ Item {
             anchors {
                 left: imageButtonImg.left
                 top: imageButtonImg.bottom
+                topMargin: 5
             }
             color: platformStyle.colorNormalLight
-            font.pixelSize: platformStyle.fontSizeMedium
+            font.pixelSize: platformStyle.fontSizeLarge
             font.family: "Impact"
         }
     }

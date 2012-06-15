@@ -12,8 +12,8 @@ Item {
     property FacebookConnection facebook
     property TwitterConnection twitter
 
-    property bool sendToTwitter: twitterSwitch.checked
-    property bool sendToFacebook: fbSwitch.checked
+    property bool sendToTwitter: twitter.authenticated && twitterSwitch.checked
+    property bool sendToFacebook: facebook.authenticated && fbSwitch.checked
 
     signal connectTwitter;
     signal connectFacebook;
@@ -43,12 +43,12 @@ Item {
         id: fbImg
 
         anchors {
-            right: fbSwitch.left
+            right: facebook.authenticated ? fbSwitch.left : fbButton.left
+            rightMargin: facebook.authenticated ? 0 : 5
             verticalCenter: parent.verticalCenter
         }
         width: 32
         height: 32
-        visible: facebook.authenticated
         opacity: fbSwitch.checked ? 1 : 0.5
         source: "gfx/f_logo.png"
     }
@@ -70,7 +70,7 @@ Item {
 
         anchors {
             right: twitterImg.left
-            rightMargin: 10
+            rightMargin: 5
             verticalCenter: parent.verticalCenter
         }
 
@@ -80,7 +80,6 @@ Item {
         }
 
         visible: !facebook.authenticated
-        iconSource: fbImg.source
         text: qsTr("Connect")
         onClicked: connectFacebook()
     }
@@ -90,12 +89,12 @@ Item {
         id: twitterImg
 
         anchors {
-            right: twitterSwitch.left
+            right: twitter.authenticated ? twitterSwitch.left : twitterButton.left
+            rightMargin: twitter.authenticated ? 0 : 5
             verticalCenter: parent.verticalCenter
         }
         width: 32
         height: 32
-        visible: twitter.authenticated
         opacity: twitterSwitch.checked ? 1 : 0.5
         source: "gfx/t_logo.png"
     }
@@ -117,7 +116,7 @@ Item {
 
         anchors {
             right: parent.right
-            rightMargin: 10
+            rightMargin: 5
             verticalCenter: parent.verticalCenter
         }
 
@@ -127,7 +126,6 @@ Item {
         }
 
         visible: !twitter.authenticated
-        iconSource: twitterImg.source
         text: qsTr("Connect")
         onClicked: connectTwitter()
     }

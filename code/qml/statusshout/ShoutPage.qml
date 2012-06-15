@@ -251,6 +251,10 @@ Page {
         }
 
         ToolButton {
+            property bool sendEnabled: titleBar.sendToTwitter || titleBar.sendToFacebook
+
+            opacity: sendEnabled ? 1 : 0.3
+            enabled: sendEnabled
             iconSource: "gfx/messaging.svg"
             onClicked: __sendMessage()
         }
