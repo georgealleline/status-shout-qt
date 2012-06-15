@@ -42,6 +42,9 @@ Page {
         }
     }
 
+    // TODO! Unlock, once the landscape is support is implemented!
+    orientationLock: PageOrientation.LockPortrait
+
     // Shout titlebar. Shows Switches to enable / disable sending status
     // update to different services.
     ShoutTitleBar {
@@ -276,7 +279,11 @@ Page {
         ToolButton {
             iconSource: "toolbar-back"
             onClicked: {
-                if (shoutText.text) {
+                if (webViewLoader.active) {
+                    shoutPage.twitter.cancel();
+                    shoutPage.facebook.cancel();
+                    webViewLoader.unload();
+                } else if (shoutText.text) {
                     dlgLoader.sourceComponent = exitConfirmationDlg;
                     dlgLoader.item.open();
                 } else {

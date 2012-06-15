@@ -97,12 +97,15 @@ Page {
         ToolButton {
             iconSource: "toolbar-back"
             onClicked: {
-                // Make sure, that all possible ongoing (authentication) requests
-                // are being cancelled, before backing.
-                twitter.cancel();
-                facebook.cancel();
-                webViewLoader.unload();
-                accountsPage.pageStack.pop();
+                if (webViewLoader.active) {
+                    // Make sure, that all possible ongoing (authentication) requests
+                    // are being cancelled, before backing.
+                    accountsPage.twitter.cancel();
+                    accountsPage.facebook.cancel();
+                    webViewLoader.unload();
+                } else {
+                    accountsPage.pageStack.pop();
+                }
             }
         }
     }

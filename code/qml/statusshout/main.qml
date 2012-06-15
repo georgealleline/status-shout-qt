@@ -21,7 +21,7 @@ Window {
 
     Image {
         anchors.fill: pageStack
-        source: "gfx/background.png"
+        source: width > height ? "gfx/background_landscape.png" : "gfx/background.png"
     }
 
     PageStack {

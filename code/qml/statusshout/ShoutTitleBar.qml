@@ -18,15 +18,16 @@ Item {
     signal connectTwitter;
     signal connectFacebook;
 
-    height: 80
+    height: 100
 
     Image {
         id: shoutToImg
 
         anchors {
             left: parent.left
-            leftMargin: 10
-            verticalCenter: parent.verticalCenter
+            leftMargin: 28
+            top: parent.top
+            topMargin: 15
         }
         source: "gfx/shout_logo.png"
     }
@@ -36,9 +37,10 @@ Item {
         id: fbImg
 
         anchors {
-            right: facebook.authenticated ? fbSwitch.left : fbButton.left
-            rightMargin: facebook.authenticated ? 0 : 5
-            verticalCenter: parent.verticalCenter
+            left: parent.left
+            leftMargin: 13
+            top: shoutToImg.bottom
+            topMargin: 15
         }
         width: 32
         height: 32
@@ -50,9 +52,9 @@ Item {
         id: fbSwitch
 
         anchors {
-            right: twitterImg.left
-            rightMargin: 10
-            verticalCenter: parent.verticalCenter
+            left: fbImg.right
+            leftMargin: 10
+            verticalCenter: fbImg.verticalCenter
         }
         visible: facebook.authenticated
         checked: true
@@ -62,9 +64,9 @@ Item {
         id: fbButton
 
         anchors {
-            right: twitterImg.left
-            rightMargin: 5
-            verticalCenter: parent.verticalCenter
+            left: fbImg.right
+            leftMargin: 10
+            verticalCenter: fbImg.verticalCenter
         }
 
         font {
@@ -82,9 +84,9 @@ Item {
         id: twitterImg
 
         anchors {
-            right: twitter.authenticated ? twitterSwitch.left : twitterButton.left
-            rightMargin: twitter.authenticated ? 0 : 5
-            verticalCenter: parent.verticalCenter
+            left: fbSwitch.visible ? fbSwitch.right : fbButton.right
+            leftMargin: 15
+            verticalCenter: fbImg.verticalCenter
         }
         width: 32
         height: 32
@@ -97,9 +99,9 @@ Item {
 
         visible: twitter.authenticated
         anchors {
-            right: parent.right
-            rightMargin: 10
-            verticalCenter: parent.verticalCenter
+            left: twitterImg.right
+            leftMargin: 10
+            verticalCenter: fbImg.verticalCenter
         }
         checked: true
     }
@@ -108,9 +110,9 @@ Item {
         id: twitterButton
 
         anchors {
-            right: parent.right
-            rightMargin: 5
-            verticalCenter: parent.verticalCenter
+            left: twitterImg.right
+            leftMargin: 10
+            verticalCenter: fbImg.verticalCenter
         }
 
         font {
