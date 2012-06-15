@@ -181,7 +181,13 @@ Page {
             id: continueButton
             enabled: false
             text: qsTr("Continue")
-            onClicked: launchWizardPage.pageStack.pop()
+            onClicked: {
+                pageStack.replace(Qt.resolvedUrl("ShoutPage.qml"),
+                                 {pageStack: pageStack,
+                                  webIf: webInterface,
+                                  twitter: twitterConnection,
+                                  facebook: facebookConnection});
+            }
         }
     }
 }

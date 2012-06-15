@@ -85,6 +85,7 @@ Page {
                     __service.deauthenticate();
                     __service.removeCredentials();
                 } else {
+                    webViewLoader.setBusy();
                     // TODO! Check the authenticate return value!
                     __service.authenticate();
                 }

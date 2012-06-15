@@ -21,13 +21,16 @@ Page {
 
         if (titleBar.sendToTwitter) {
             twitter.postMessage({"text": message});
+            busyIndicatorLoader.loading = true;
         }
         if (titleBar.sendToFacebook) {
             facebook.postMessage({"text": message});
+            busyIndicatorLoader.loading = true;
         }
     }
 
     function __sendMessageCompleted(success) {
+        busyIndicatorLoader.loading = false;
         dlgLoader.sourceComponent = msgPostedDlg;
         dlgLoader.item.success = success;
         dlgLoader.item.open();
@@ -49,20 +52,21 @@ Page {
         twitter: shoutPage.twitter
 
         onConnectFacebook: {
+            webViewLoader.setBusy();
             facebook.authenticate();
         }
 
         onConnectTwitter: {
+            webViewLoader.setBusy();
             twitter.authenticate();
         }
     }
 
     // The status input text component. Wrapped inside a background image.
     Image {
-        anchors {
-            top: titleBar.bottom
-            bottom: bottomBanner.top
-        }
+        id: inputBackground
+
+        anchors.top: titleBar.bottom
         width: parent.width
         source: "gfx/text_box_pattern.png"
 
@@ -87,14 +91,15 @@ Page {
 //        width: parent.width
 //    }
 
-    Image {
+    Item {
         id: bottomBanner
 
         anchors {
+            top: inputBackground.bottom
             bottom: parent.bottom
             left: parent.left
+            right: parent.right
         }
-        source: "gfx/bottom_banner_bg.png"
 
         Item {
             anchors {
@@ -237,6 +242,36 @@ Page {
         }
     }
 
+    Loader {
+        id: busyIndicatorLoader
+
+        property bool loading: false
+
+        anchors.fill: parent
+        sourceComponent: loading ? busyIndicator : undefined
+
+        Component {
+            id: busyIndicator
+
+            Rectangle {
+                color: "black"
+                opacity: 0.7
+
+                BusyIndicator {
+                    anchors.centerIn: parent
+                    running: true
+                    width: 100
+                    height: 100
+                }
+
+                MouseArea {
+                    // Capture all clicks outside.
+                    anchors.fill: parent
+                }
+            }
+        }
+    }
+
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
@@ -251,7 +286,8 @@ Page {
         }
 
         ToolButton {
-            property bool sendEnabled: titleBar.sendToTwitter || titleBar.sendToFacebook
+            property bool sendEnabled:
+                (titleBar.sendToTwitter || titleBar.sendToFacebook) && shoutText.text
 
             opacity: sendEnabled ? 1 : 0.3
             enabled: sendEnabled

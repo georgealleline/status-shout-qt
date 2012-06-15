@@ -19,6 +19,14 @@ Loader {
     property WebInterface webIf
     property bool active: false
 
+    // Should a BusyIndicator be shown, calling this function will accomplish
+    // the deed! Be sure to call this BEFORE calling the twitter/fb.authenticate()
+    // as otherwise it might cause problems with the WebIf onActiveChanged and the
+    // automatic setting of the WebViewLoader's sourceComponent.
+    function setBusy() {
+        webViewLoader.sourceComponent = busyIndicator;
+    }
+
     function load() {
         webViewLoader.active = true;
         webViewLoader.sourceComponent = webView;
@@ -98,6 +106,27 @@ Loader {
                 ScrollDecorator {
                     flickableItem: webFlickable
                 }
+            }
+        }
+    }
+
+    Component {
+        id: busyIndicator
+
+        Rectangle {
+            color: "black"
+            opacity: 0.7
+
+            BusyIndicator {
+                anchors.centerIn: parent
+                running: true
+                width: 100
+                height: 100
+            }
+
+            MouseArea {
+                // Capture all clicks outside.
+                anchors.fill: parent
             }
         }
     }

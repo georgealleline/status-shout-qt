@@ -6,15 +6,35 @@ import QtQuick 1.1
 import com.nokia.symbian 1.1
 import SocialConnect 0.1
 
-PageStackWindow {
+Window {
     id: window
 
-    showStatusBar: true
-    showToolBar: true
-    initialPage: ShoutPage {pageStack: pageStack;
-                            webIf: webInterface;
-                            twitter: twitterConnection;
-                            facebook: facebookConnection}
+    StatusBar  {
+        id: statusbar
+        anchors.top: parent.top
+    }
+
+    ToolBar {
+        id: toolbar
+        anchors.bottom: parent.bottom
+    }
+
+    Image {
+        anchors.fill: pageStack
+        source: "gfx/background.png"
+    }
+
+    PageStack {
+        id: pageStack
+
+        toolBar: toolbar
+        anchors {
+            top: statusbar.bottom
+            bottom: toolbar.top
+            left: parent.left
+            right: parent.right
+        }
+    }
 
     Component.onCompleted: {
         // Try to restore the saved credentials
@@ -25,10 +45,16 @@ PageStackWindow {
         // present the LaunchWizardPage to the user.
         if (!facebookConnection.authenticated && !twitterConnection.authenticated) {
             pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
-                           {pageStack: pageStack,
-                               webIf: webInterface,
-                               twitter: twitterConnection,
-                               facebook: facebookConnection});
+                          {pageStack: pageStack,
+                           webIf: webInterface,
+                           twitter: twitterConnection,
+                           facebook: facebookConnection});
+        } else {
+            pageStack.push(Qt.resolvedUrl("ShoutPage.qml"),
+                          {pageStack: pageStack,
+                           webIf: webInterface,
+                           twitter: twitterConnection,
+                           facebook: facebookConnection});
         }
     }
 

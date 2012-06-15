@@ -18,14 +18,7 @@ Item {
     signal connectTwitter;
     signal connectFacebook;
 
-    height: topBannerImg.height
-
-    Image {
-        id: topBannerImg
-
-        width: parent.width
-        source: "gfx/top_banner_bg.png"
-    }
+    height: 80
 
     Image {
         id: shoutToImg
