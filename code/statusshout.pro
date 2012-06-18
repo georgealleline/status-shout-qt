@@ -7,8 +7,8 @@ CONFIG += qt qt-components
 # lines and add the respective components to the MOBILITY variable.
 #MOBILITY += multimedia
 
-SOURCES += loadhelper.cpp main.cpp
 HEADERS += loadhelper.h
+SOURCES += loadhelper.cpp main.cpp
 
 # Version number & version string definition (for using it inside the app)
 VERSION = 0.0.1
@@ -28,6 +28,8 @@ symbian {
     # Allow network access on Symbian
     TARGET.CAPABILITY += NetworkServices
     TARGET.UID3 = 0xE0C9633A
+    socialconnect_deployment.pkg_prerules = "@\"socialconnect.sis\", (0xED6AB47E)"
+    DEPLOYMENT += socialconnect_deployment
 }
 contains(MEEGO_EDITION,harmattan) {
     # Add these, if MeeGo support required.
