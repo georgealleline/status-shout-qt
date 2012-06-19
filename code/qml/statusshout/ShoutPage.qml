@@ -42,9 +42,6 @@ Page {
         }
     }
 
-    // TODO! Unlock, once the landscape is support is implemented!
-    orientationLock: PageOrientation.LockPortrait
-
     // Shout titlebar. Shows Switches to enable / disable sending status
     // update to different services.
     ShoutTitleBar {
@@ -71,7 +68,8 @@ Page {
 
         anchors.top: titleBar.bottom
         width: parent.width
-        source: "gfx/text_box_pattern.png"
+        source: cp_inPortrait ? "gfx/text_box_pattern.png"
+                              : "gfx/text_box_pattern_landscape.png"
 
         TextEdit {
             id: shoutText

@@ -34,6 +34,7 @@ Item {
             id: imageButtonImg
 
             anchors.top: parent.top
+            smooth: true
         }
 
         Text {
@@ -47,6 +48,7 @@ Item {
             color: platformStyle.colorNormalLight
             font.pixelSize: platformStyle.fontSizeLarge
             font.family: "Impact"
+            smooth: true
         }
     }
 

@@ -9,6 +9,32 @@ import SocialConnect 0.1
 Window {
     id: window
 
+    // Define one "context property", to be used for checking
+    // the current screen orientation.
+    property bool cp_inPortrait: window.inPortrait
+
+    Component.onCompleted: {
+        // Try to restore the saved credentials
+        twitterConnection.restoreCredentials();
+        facebookConnection.restoreCredentials();
+
+        // If none of the supported SoMe services proves to be authenticated,
+        // present the LaunchWizardPage to the user.
+        if (!facebookConnection.authenticated && !twitterConnection.authenticated) {
+            pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
+                          {pageStack: pageStack,
+                           webIf: webInterface,
+                           twitter: twitterConnection,
+                           facebook: facebookConnection});
+        } else {
+            pageStack.push(Qt.resolvedUrl("ShoutPage.qml"),
+                          {pageStack: pageStack,
+                           webIf: webInterface,
+                           twitter: twitterConnection,
+                           facebook: facebookConnection});
+        }
+    }
+
     StatusBar  {
         id: statusbar
         anchors.top: parent.top
@@ -33,28 +59,6 @@ Window {
             bottom: toolbar.top
             left: parent.left
             right: parent.right
-        }
-    }
-
-    Component.onCompleted: {
-        // Try to restore the saved credentials
-        twitterConnection.restoreCredentials();
-        facebookConnection.restoreCredentials();
-
-        // If none of the supported SoMe services proves to be authenticated,
-        // present the LaunchWizardPage to the user.
-        if (!facebookConnection.authenticated && !twitterConnection.authenticated) {
-            pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
-                          {pageStack: pageStack,
-                           webIf: webInterface,
-                           twitter: twitterConnection,
-                           facebook: facebookConnection});
-        } else {
-            pageStack.push(Qt.resolvedUrl("ShoutPage.qml"),
-                          {pageStack: pageStack,
-                           webIf: webInterface,
-                           twitter: twitterConnection,
-                           facebook: facebookConnection});
         }
     }
 

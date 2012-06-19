@@ -83,8 +83,8 @@ Loader {
                 id: webFlickable
 
                 anchors.centerIn: parent
-                width: parent.width * 9/10
-                height: parent.height * 9/10
+                width: parent.width * 0.95
+                height: parent.height * 0.95
                 contentHeight: web.height
                 contentWidth: web.width
                 flickableDirection: Flickable.VerticalFlick

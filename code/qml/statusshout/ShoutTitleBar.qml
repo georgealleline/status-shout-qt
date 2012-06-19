@@ -18,7 +18,7 @@ Item {
     signal connectTwitter;
     signal connectFacebook;
 
-    height: 100
+    height: cp_inPortrait ? 100 : 52
 
     Image {
         id: shoutToImg
@@ -37,10 +37,10 @@ Item {
         id: fbImg
 
         anchors {
-            left: parent.left
+            left: cp_inPortrait ? parent.left : shoutToImg.right
             leftMargin: 13
-            top: shoutToImg.bottom
-            topMargin: 15
+            top: cp_inPortrait ? shoutToImg.bottom : parent.top
+            topMargin: cp_inPortrait ? 15 : 10
         }
         width: 32
         height: 32
