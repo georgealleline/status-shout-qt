@@ -18,14 +18,21 @@ Page {
     function __sendMessage() {
         var message = shoutText.text;
         console.log("SEND, message: " + message);
+        var tooLong = __checkCharLimit(message)
 
-        if (titleBar.sendToTwitter) {
-            twitter.postMessage({"text": message});
-            busyIndicatorLoader.loading = true;
-        }
-        if (titleBar.sendToFacebook) {
-            facebook.postMessage({"text": message});
-            busyIndicatorLoader.loading = true;
+        if (titleBar.sendToTwitter && tooLong) {
+            dlgLoader.sourceComponent = charCountExceededDlg;
+            dlgLoader.item.open();
+        } else {
+            if (titleBar.sendToTwitter) {
+                twitter.postMessage({"text": message});
+                busyIndicatorLoader.loading = true;
+            }
+
+            if (titleBar.sendToFacebook) {
+                facebook.postMessage({"text": message});
+                busyIndicatorLoader.loading = true;
+            }
         }
     }
 
@@ -40,6 +47,23 @@ Page {
         } else {
             console.log("  Posting message FAILED!");
         }
+    }
+
+    function __checkCharLimit(text) {
+        var charLimitExceeded = false;
+        var maxCharCount = 140; // TODO: max limit should change, if there's a picture!
+        var currentCharCount = maxCharCount - text.length;
+
+        if (text.length > maxCharCount) {
+            console.debug(qsTr("ALARM! Over %1 characters!").arg(maxCharCount));
+            charCounter.color = "red";
+            charLimitExceeded = true;
+        } else {
+            charCounter.color = "black";
+        }
+
+        charCounter.text = currentCharCount;
+        return charLimitExceeded;
     }
 
     // Shout titlebar. Shows Switches to enable / disable sending status
@@ -77,10 +101,24 @@ Page {
             anchors.fill: parent
             anchors.margins: 10
             width: parent.width
-            wrapMode: Text.WordWrap
+            wrapMode: TextEdit.WordWrap
             font.pixelSize: platformStyle.fontSizeLarge
             color: "black"
+
+            onTextChanged: __checkCharLimit(text)
         }
+    }
+
+    CharCounter {
+        id: charCounter
+
+        anchors{
+            right: parent.right
+            bottom: titleBar.bottom
+            bottomMargin: -(charCounter.height / 4)
+        }
+
+        opacity: titleBar.sendToTwitter ? 1 : 0
     }
 
     // Alternative multiline text input field, from QCC.
@@ -208,6 +246,34 @@ Page {
     Loader {
         id: dlgLoader
         anchors.centerIn: parent
+
+        Component {
+            id: charCountExceededDlg
+
+            QueryDialog {
+                property bool success: false
+
+                anchors.centerIn: parent
+                titleText: qsTr("Message too long!")
+                message: qsTr("You are trying to send a message that exceeds "
+                         + "Twitter's status update character count.\n\n")
+                         + (titleBar.sendToFacebook
+                          ? "You can select either to send the message only "
+                            + " to Facebook, or return editing the message."
+                          : "")
+
+                acceptButtonText: titleBar.sendToFacebook ? qsTr("Send to FB") : undefined
+                rejectButtonText: qsTr("Edit message")
+                onAccepted: {
+                    if (titleBar.sendToFacebook) {
+                        facebook.postMessage({"text": shoutText.text});
+                        dlgLoader.sourceComponent = undefined;
+                        busyIndicatorLoader.loading = true;
+                    }
+                }
+                onRejected: dlgLoader.sourceComponent = undefined;
+            }
+        }
 
         Component {
             id: msgPostedDlg
