@@ -26,7 +26,7 @@ QML_IMPORT_PATH =
 # Platform specific files and configuration
 symbian {
     # Allow network access on Symbian
-    TARGET.CAPABILITY += NetworkServices
+    TARGET.CAPABILITY += NetworkServices ReadUserData
     TARGET.UID3 = 0xE0C9633A
     socialconnect_deployment.pkg_prerules = "@\"socialconnect.sis\", (0xED6AB47E)"
     DEPLOYMENT += socialconnect_deployment
