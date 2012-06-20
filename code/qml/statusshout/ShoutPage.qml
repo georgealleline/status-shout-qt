@@ -55,7 +55,6 @@ Page {
         var currentCharCount = maxCharCount - text.length;
 
         if (text.length > maxCharCount) {
-            console.debug(qsTr("ALARM! Over %1 characters!").arg(maxCharCount));
             charCounter.color = "red";
             charLimitExceeded = true;
         } else {
@@ -96,16 +95,31 @@ Page {
         source: cp_inPortrait ? "gfx/text_box_pattern.png"
                               : "gfx/text_box_pattern_landscape.png"
 
-        TextEdit {
-            id: shoutText
+        Flickable {
+            id: shoutFlick
 
             anchors.fill: parent
-            anchors.margins: 10
-            wrapMode: TextEdit.WordWrap
-            font.pixelSize: platformStyle.fontSizeLarge
-            color: "black"
+            contentWidth: parent.width
+            contentHeight: Math.max(parent.height, shoutText.paintedHeight)
+                           + shoutText.anchors.margins
+            flickableDirection: Flickable.VerticalFlick
+            interactive: contentHeight > (parent.height + shoutText.anchors.margins)
 
-            onTextChanged: __checkCharLimit(text)
+            TextEdit {
+                id: shoutText
+
+                anchors.fill: parent
+                anchors.margins: 10
+                wrapMode: TextEdit.WordWrap
+                font.pixelSize: platformStyle.fontSizeLarge
+                color: "black"
+
+                onTextChanged: __checkCharLimit(text)
+            }
+
+            ScrollDecorator {
+                flickableItem: shoutFlick
+            }
         }
     }
 
@@ -120,15 +134,6 @@ Page {
 
         opacity: titleBar.sendToTwitter ? 1 : 0
     }
-
-    // Alternative multiline text input field, from QCC.
-//    TextArea {
-//        id: shoutText
-//
-//        anchors.top: titleBar.bottom
-//        anchors.bottom: bottomBanner.top
-//        width: parent.width
-//    }
 
     Item {
         id: bottomBanner
@@ -151,8 +156,10 @@ Page {
                 id: cameraButton
 
                 anchors.centerIn: parent
-                source: "gfx/camera.png"
+                source: cp_inPortrait ? "gfx/camera.png" : "gfx/camera_landscape.png"
                 text: qsTr("+ new picture")
+                fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
+                                        : platformStyle.fontSizeSmall
                 onClicked: console.log("TAKE A PICTURE!")
             }
         }
@@ -168,8 +175,10 @@ Page {
                 id: galleryButton
 
                 anchors.centerIn: parent
-                source: "gfx/gallery.png"
+                source: cp_inPortrait ? "gfx/gallery.png" : "gfx/gallery_landscape.png"
                 text: qsTr("+ from gallery")
+                fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
+                                        : platformStyle.fontSizeSmall
                 onClicked: console.log("SELECT FROM GALLERY!")
             }
         }

@@ -44,7 +44,9 @@ Page {
         wrapMode: Text.WordWrap
         text: qsTr("<p>Version: " + cp_versionNumber + "</p>" +
                    "<p>Status Shout! application is a Nokia Developer example " +
-                   "demonstrating the use of the SocialConnect library. " +
+                   "demonstrating the use of the " +
+                   "<a href=\"http://projects.developer.nokia.com/socialconnect/wiki\">" +
+                   "SocialConnect library</a>. " +
                    "Currently supported social medias are Facebook and Twitter. " +
                    "<p>Developed and published by Nokia. All rights reserved.</p>" +
                    "<p>Learn more at " +

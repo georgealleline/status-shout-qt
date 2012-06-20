@@ -10,6 +10,7 @@ Item {
 
     property alias source: imageButtonImg.source
     property alias text: imageButtonText.text
+    property alias fontSize: imageButtonText.font.pixelSize
 
     signal clicked
 
@@ -41,10 +42,11 @@ Item {
             id: imageButtonText
 
             anchors {
-                left: imageButtonImg.left
+                horizontalCenter: parent.horizontalCenter
                 top: imageButtonImg.bottom
                 topMargin: 5
             }
+            horizontalAlignment: Text.AlignHCenter
             color: platformStyle.colorNormalLight
             font.pixelSize: platformStyle.fontSizeLarge
             font.family: "Impact"

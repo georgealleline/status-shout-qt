@@ -18,7 +18,7 @@ Item {
     signal connectTwitter;
     signal connectFacebook;
 
-    height: cp_inPortrait ? 100 : 52
+    height: cp_inPortrait ? 120 : 56
 
     Image {
         id: shoutToImg
@@ -26,8 +26,9 @@ Item {
         anchors {
             left: parent.left
             leftMargin: 28
-            top: parent.top
-            topMargin: 15
+            top: cp_inPortrait ? parent.top : undefined
+            topMargin: cp_inPortrait ? 15 : 0
+            verticalCenter: cp_inPortrait ? undefined : parent.verticalCenter
         }
         source: "gfx/shout_logo.png"
     }
@@ -39,8 +40,9 @@ Item {
         anchors {
             left: cp_inPortrait ? parent.left : shoutToImg.right
             leftMargin: 13
-            top: cp_inPortrait ? shoutToImg.bottom : parent.top
-            topMargin: cp_inPortrait ? 15 : 10
+            top: cp_inPortrait ? shoutToImg.bottom : undefined
+            topMargin: cp_inPortrait ? 15 : 0
+            verticalCenter: cp_inPortrait ? undefined : parent.verticalCenter
         }
         width: 32
         height: 32
