@@ -357,18 +357,28 @@ Page {
         }
 
         ToolButton {
-            property bool sendEnabled:
+            property bool sendEnabled: !twitter.busy && !facebook.busy &&
                 (titleBar.sendToTwitter || titleBar.sendToFacebook) && shoutText.text
 
             opacity: sendEnabled ? 1 : 0.3
             enabled: sendEnabled
             iconSource: "gfx/messaging.svg"
             onClicked: __sendMessage()
+
+            Behavior on opacity {
+                NumberAnimation { duration: 150 }
+            }
         }
 
         ToolButton {
+            enabled: !twitter.busy && !facebook.busy
+            opacity: enabled ? 1 : 0.3
             iconSource: "toolbar-menu"
             onClicked: mainMenu.open()
+
+            Behavior on opacity {
+                NumberAnimation { duration: 150 }
+            }
         }
     }
 }
