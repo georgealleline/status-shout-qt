@@ -92,6 +92,7 @@ Page {
 
         anchors.top: titleBar.bottom
         width: parent.width
+        clip: true
         source: cp_inPortrait ? "gfx/text_box_pattern.png"
                               : "gfx/text_box_pattern_landscape.png"
 
@@ -100,7 +101,6 @@ Page {
 
             anchors.fill: parent
             anchors.margins: 10
-            width: parent.width
             wrapMode: TextEdit.WordWrap
             font.pixelSize: platformStyle.fontSizeLarge
             color: "black"
