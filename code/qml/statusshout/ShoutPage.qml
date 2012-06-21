@@ -98,18 +98,24 @@ Page {
         Flickable {
             id: shoutFlick
 
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height
             contentWidth: parent.width
             contentHeight: Math.max(parent.height, shoutText.paintedHeight)
-                           + shoutText.anchors.margins
+                           + parent.height/2
             flickableDirection: Flickable.VerticalFlick
-            interactive: contentHeight > (parent.height + shoutText.anchors.margins)
 
             TextEdit {
                 id: shoutText
 
-                anchors.fill: parent
-                anchors.margins: 10
+                width: parent.width
+                height: parent.height
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    right: parent.right
+                    margins: 10
+                }
                 wrapMode: TextEdit.WordWrap
                 font.pixelSize: platformStyle.fontSizeLarge
                 color: "black"

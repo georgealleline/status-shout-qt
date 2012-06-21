@@ -26,9 +26,8 @@ Item {
         anchors {
             left: parent.left
             leftMargin: 28
-            top: cp_inPortrait ? parent.top : undefined
-            topMargin: cp_inPortrait ? 15 : 0
-            verticalCenter: cp_inPortrait ? undefined : parent.verticalCenter
+            top: parent.top
+            topMargin: cp_inPortrait ? 15 : 12
         }
         source: "gfx/shout_logo.png"
     }
@@ -40,9 +39,8 @@ Item {
         anchors {
             left: cp_inPortrait ? parent.left : shoutToImg.right
             leftMargin: 13
-            top: cp_inPortrait ? shoutToImg.bottom : undefined
-            topMargin: cp_inPortrait ? 15 : 0
-            verticalCenter: cp_inPortrait ? undefined : parent.verticalCenter
+            top: cp_inPortrait ? shoutToImg.bottom : parent.top
+            topMargin: cp_inPortrait ? 15 : 12
         }
         width: 32
         height: 32
