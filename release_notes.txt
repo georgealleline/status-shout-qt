@@ -6,25 +6,25 @@ Twitter & Facebook), OAuth authentication and posting status update messages
 with images.
 
 The Status Shout! application uses the ?Social Connect QML plugin, which handles
-authentication of the application to different social medias  and can be easily
+authentication of the application to different social medias and can be easily
 utilised by developers in their own applications. The application also uses the
 official Qt Quick Components for navigation and UI.
 
 The Social Connect QML plugin used in the Status Shout! example application is
-available at: http://projects.developer.nokia.com/socialconnect.
+available at: http://projects.developer.nokia.com/socialconnect
 
 The Status Shout! uses Qt Quick Components in numerous places. For
 example, when navigating deeper into the application, the PageStack is used.
 The StatusBar and ToolBar (with all the ToolButtons etc.) are used as well.
 
 This example application demonstrates:
-- Using the Social Connect QML plugin
-  - Authentication with OAuth (versions 1.0 & 2.0)
-  - Posting a message to social media services
+- Using the Social Connect QML plugin:
+  - Authentication with OAuth (versions 1.0 & 2.0).
+  - Posting a message to social media services.
 - Using Qt Quick Components in an application that supports multiple
-  resolutions and both touch UI and keypad
+  resolutions and both touch UI and keypad.
 - Smart startup of the application (content and application UI loaded during
-  splash screen
+  splash screen.
 
 This example application is hosted in Nokia Developer Projects:
 - http://projects.developer.nokia.com/statusshout
@@ -69,7 +69,6 @@ Follow the step-by-step guide from the Social Connect wiki for more details:
  |- code             Root folder for project, gfx, QML, and Javascript files.
  |
 
-
 3.2 Important files and classes
 -------------------------------
 
@@ -78,7 +77,6 @@ Follow the step-by-step guide from the Social Connect wiki for more details:
 | LoadHelper              | Helper class that is used to load the main QML    |
 |                         | file right after showing the splash screen.       |
 |-------------------------|---------------------------------------------------|
-
 
 3.3 Used APIs/QML elements/Qt Quick Components
 ----------------------------------------------
@@ -126,13 +124,11 @@ Tested on:
 Developed with:
  - Qt SDK 1.2
 
-
 4.1 Required capabilities
 -------------------------
 
 NetworkServices and ReadUserData. Required for the Social Connect QML plugin
-to work correctly. The application can be self signed on Symbian.
-
+to work correctly with network. The application can be self signed on Symbian.
 
 4.2 Known issues and design limitations
 ---------------------------------------
@@ -143,6 +139,7 @@ Camera button not working properly:
 Gallery button not working properly:
 - Functionality for selecting a picture from the device's gallery isn't
   implemented yet.
+
 
 5. Building, installing, and running the application
 -------------------------------------------------------------------------------
@@ -176,19 +173,6 @@ Manager application.
 After the application is installed, locate the application icon from the
 application menu and launch the application by tapping the icon.
 
-5.4 Nokia N9 and Nokia N950
----------------------------
-
-Copy the application Debian package onto the device. Locate the file with the
-device and run it; this will install the application. Note that you can also
-use the terminal application and install the application by typing the command
-'dpkg -i <package name>.deb' on the command line. To install the application
-using the terminal application, make sure you have the right privileges 
-to do so (e.g. root access).
-
-Once the application is installed, locate the application icon from the
-application menu and launch the application by tapping the icon.
-
 
 6. Licence
 -------------------------------------------------------------------------------
@@ -207,4 +191,4 @@ Qt Quick Components
 8. Version history
 -------------------------------------------------------------------------------
 
-1.0 Published on the Nokia Developer website.
+1.0 Initial release.
