@@ -143,53 +143,14 @@ Page {
         opacity: titleBar.sendToTwitter ? 1 : 0
     }
 
-    Item {
-        id: bottomBanner
-
+    ShoutBottomBar {
         anchors {
             top: inputBackground.bottom
             bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
-
-        Item {
-            anchors {
-                verticalCenter: parent.verticalCenter
-                left: parent.left
-            }
-            width: parent.width / 2
-
-            ImageButton {
-                id: cameraButton
-
-                anchors.centerIn: parent
-                source: cp_inPortrait ? "gfx/camera.png" : "gfx/camera_landscape.png"
-                text: qsTr("+ new picture")
-                fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
-                                        : platformStyle.fontSizeSmall
-                onClicked: console.log("TAKE A PICTURE!")
-            }
-        }
-
-        Item {
-            anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-            }
-            width: parent.width / 2
-
-            ImageButton {
-                id: galleryButton
-
-                anchors.centerIn: parent
-                source: cp_inPortrait ? "gfx/gallery.png" : "gfx/gallery_landscape.png"
-                text: qsTr("+ from gallery")
-                fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
-                                        : platformStyle.fontSizeSmall
-                onClicked: console.log("SELECT FROM GALLERY!")
-            }
-        }
+        pageStack: shoutPage.pageStack
     }
 
     // Loader for the Web view to show the OAuth login.
