@@ -96,11 +96,8 @@ Loader {
 
                     preferredWidth: webFlickable.width
                     preferredHeight: webFlickable.height
-                    onUrlChanged: webIf.url = url;
 
-                    Component.onDestruction: {
-                        console.log("Deleting WebView");
-                    }
+                    onUrlChanged: webIf.url = url;
                 }
 
                 ScrollDecorator {

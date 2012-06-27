@@ -17,13 +17,14 @@ Page {
     // Private functions
     function __sendMessage() {
         var message = shoutText.text;
-        console.log("SEND, message: " + message);
+        console.debug("SEND, message: " + message);
         var tooLong = __checkCharLimit(message)
 
         if (titleBar.sendToTwitter && tooLong) {
             dlgLoader.sourceComponent = charCountExceededDlg;
             dlgLoader.item.open();
         } else {
+
             if (titleBar.sendToTwitter) {
                 twitter.postMessage({"text": message});
                 busyIndicatorLoader.loading = true;
@@ -41,11 +42,9 @@ Page {
         dlgLoader.sourceComponent = msgPostedDlg;
         dlgLoader.item.success = success;
         dlgLoader.item.open();
+
         if (success) {
-            console.log("  Posting message completed!");
             shoutText.text = "";
-        } else {
-            console.log("  Posting message FAILED!");
         }
     }
 
@@ -103,19 +102,23 @@ Page {
             contentWidth: parent.width
             contentHeight: Math.max(parent.height, shoutText.paintedHeight)
                            + parent.height/2
+
+            // Add some delay before delivering pressed event to the TextEdit
+            // (otherwise the VKB would pop up constantly when flicking).
+            pressDelay: 100
             flickableDirection: Flickable.VerticalFlick
 
             TextEdit {
                 id: shoutText
 
-                width: parent.width
-                height: parent.height
                 anchors {
                     left: parent.left
                     top: parent.top
                     right: parent.right
                     margins: 10
                 }
+                width: parent.width
+                height: parent.height
                 wrapMode: TextEdit.WordWrap
                 font.pixelSize: platformStyle.fontSizeLarge
                 color: "black"
@@ -137,7 +140,6 @@ Page {
             bottom: titleBar.bottom
             bottomMargin: -(charCounter.height / 4)
         }
-
         opacity: titleBar.sendToTwitter ? 1 : 0
     }
 
@@ -203,7 +205,7 @@ Page {
         target: twitter
 
         onPostMessageCompleted: {
-            console.log("Posting message to Twitter completed! Success: " + success);
+            console.debug("Posting message to Twitter completed! Success: " + success);
             __sendMessageCompleted(success);
         }
 
@@ -218,7 +220,7 @@ Page {
         target: facebook
 
         onPostMessageCompleted: {
-            console.log("Posting message to Facebook completed! Success: " + success);
+            console.debug("Posting message to Facebook completed! Success: " + success);
             __sendMessageCompleted(success);
         }
 
@@ -252,14 +254,16 @@ Page {
 
         AccountsPage {
             pageStack: shoutPage.pageStack
-            webIf: shoutPage.webIf
-            twitter: shoutPage.twitter
+
             facebook: shoutPage.facebook
+            twitter: shoutPage.twitter
+            webIf: shoutPage.webIf
         }
     }
 
     Loader {
         id: dlgLoader
+
         anchors.centerIn: parent
 
         Component {
@@ -279,6 +283,7 @@ Page {
 
                 acceptButtonText: titleBar.sendToFacebook ? qsTr("Send to FB") : undefined
                 rejectButtonText: qsTr("Edit message")
+
                 onAccepted: {
                     if (titleBar.sendToFacebook) {
                         facebook.postMessage({"text": shoutText.text});
@@ -286,6 +291,7 @@ Page {
                         busyIndicatorLoader.loading = true;
                     }
                 }
+
                 onRejected: dlgLoader.sourceComponent = undefined;
             }
         }
@@ -347,7 +353,7 @@ Page {
                 }
 
                 MouseArea {
-                    // Capture all clicks outside.
+                    // Capture all clicks.
                     anchors.fill: parent
                 }
             }
@@ -357,6 +363,7 @@ Page {
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
+
             onClicked: {
                 if (webViewLoader.active) {
                     shoutPage.twitter.cancel();
@@ -372,12 +379,15 @@ Page {
         }
 
         ToolButton {
+            // Send button is enabled only, if the SocialConnect plugin isn't
+            // busy sending something and at least one of the services is enabled.
             property bool sendEnabled: !twitter.busy && !facebook.busy &&
                 (titleBar.sendToTwitter || titleBar.sendToFacebook) && shoutText.text
 
             opacity: sendEnabled ? 1 : 0.3
             enabled: sendEnabled
             iconSource: "gfx/messaging.svg"
+
             onClicked: __sendMessage()
 
             Behavior on opacity {
@@ -389,6 +399,7 @@ Page {
             enabled: !twitter.busy && !facebook.busy
             opacity: enabled ? 1 : 0.3
             iconSource: "toolbar-menu"
+
             onClicked: mainMenu.open()
 
             Behavior on opacity {

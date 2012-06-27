@@ -3,6 +3,7 @@
 # Basic Qt configuration
 QT += declarative
 CONFIG += qt qt-components
+TARGET = StatusShout
 # If your application uses the Qt Mobility libraries, uncomment the following
 # lines and add the respective components to the MOBILITY variable.
 #MOBILITY += multimedia
@@ -28,6 +29,8 @@ symbian {
     # Allow network access on Symbian
     TARGET.CAPABILITY += NetworkServices ReadUserData
     TARGET.UID3 = 0xE0C9633A
+
+    # Include the Social Connect QML Plugin into the package.
     socialconnect_deployment.pkg_prerules = "@\"socialconnect.sis\", (0xED6AB47E)"
     DEPLOYMENT += socialconnect_deployment
 }

@@ -73,7 +73,6 @@ Item {
             family: "Impact"
             pixelSize: platformStyle.fontSizeSmall
         }
-
         visible: !facebook.authenticated
         text: qsTr("Connect")
         onClicked: connectFacebook()
@@ -97,12 +96,12 @@ Item {
     Switch {
         id: twitterSwitch
 
-        visible: twitter.authenticated
         anchors {
             left: twitterImg.right
             leftMargin: 10
             verticalCenter: fbImg.verticalCenter
         }
+        visible: twitter.authenticated
         checked: true
     }
 
@@ -119,9 +118,9 @@ Item {
             family: "Impact"
             pixelSize: platformStyle.fontSizeSmall
         }
-
         visible: !twitter.authenticated
         text: qsTr("Connect")
+
         onClicked: connectTwitter()
     }
 }

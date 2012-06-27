@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2012 Nokia Corporation.
+ */
+
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #include <QTimer>

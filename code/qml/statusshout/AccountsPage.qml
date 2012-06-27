@@ -10,9 +10,10 @@ Page {
     id: accountsPage
 
     property PageStack pageStack
-    property WebInterface webIf
-    property TwitterConnection twitter
+
     property FacebookConnection facebook
+    property TwitterConnection twitter
+    property WebInterface webIf
 
     // Internal ListModel for the Social Media accounts.
     property list<QtObject> __soMeModel: [
@@ -55,8 +56,10 @@ Page {
 
     Connections {
         target: twitter
+
         onAuthenticateCompleted: {
-            console.log("AccountsPage - Twitter Login success: " + success);
+            console.debug("AccountsPage - Twitter Login success: " + success);
+
             if (success) {
                 twitter.storeCredentials();
             }
@@ -65,8 +68,10 @@ Page {
 
     Connections {
         target: facebook
+
         onAuthenticateCompleted: {
-            console.log("AccountsPage - Facebook Login success: " + success);
+            console.debug("AccountsPage - Facebook Login success: " + success);
+
             if (success) {
                 facebook.storeCredentials();
             }
@@ -96,10 +101,11 @@ Page {
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
+
             onClicked: {
                 if (webViewLoader.active) {
-                    // Make sure, that all possible ongoing (authentication) requests
-                    // are being cancelled, before backing.
+                    // Make sure before backing, that all possible ongoing
+                    // (authentication) requests are being cancelled.
                     accountsPage.twitter.cancel();
                     accountsPage.facebook.cancel();
                     webViewLoader.unload();

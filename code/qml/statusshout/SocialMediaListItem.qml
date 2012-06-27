@@ -19,12 +19,12 @@ ListItem {
     Image {
         id: socialMediaIcon
 
-        sourceSize.width: paddingItem.height
-        sourceSize.height: paddingItem.height
         anchors {
             top: paddingItem.top
             left: paddingItem.left
         }
+        sourceSize.width: paddingItem.height
+        sourceSize.height: paddingItem.height
         source: __iconUrl
     }
 

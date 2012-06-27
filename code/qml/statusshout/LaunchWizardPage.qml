@@ -10,39 +10,37 @@ Page {
     id: launchWizardPage
 
     property PageStack pageStack
-    property WebInterface webIf
-    property TwitterConnection twitter
-    property FacebookConnection facebook
 
-    Text {
+    property FacebookConnection facebook
+    property TwitterConnection twitter
+    property WebInterface webIf
+
+    Label {
         id: titleText
 
-        color: platformStyle.colorNormalLight
-        width: parent.width * 2/3
         anchors {
             top: parent.top
             topMargin: 30
             horizontalCenter: parent.horizontalCenter
         }
+        width: parent.width * 0.8
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: platformStyle.fontSizeLarge
         font.family: "Impact"
         text: qsTr("Status Shout!")
     }
 
-    Text {
+    Label {
         id: descriptionText
 
-        color: platformStyle.colorNormalLight
-        width: parent.width * 2/3
         anchors {
             top: titleText.bottom
-            topMargin: 50
+            topMargin: 30
             horizontalCenter: parent.horizontalCenter
         }
+        width: parent.width * 0.8
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
-        font.pixelSize: platformStyle.fontSizeMedium
         text: qsTr("Hi! Looks like this is your first time here.\n\n"
                    + "To continue, please log in to Facebook, Twitter or both!")
     }
@@ -56,6 +54,7 @@ Page {
             horizontalCenter: parent.horizontalCenter
         }
         text: qsTr("Connect to Facebook")
+
         onClicked: {
             busyIndicatorLoader.loading = true;
             // TODO! Check the authenticate return value!
@@ -66,12 +65,12 @@ Page {
     SocialMediaItem {
         id: facebookConnected
 
-        visible: false  // Shown only, if connected.
         anchors {
             top: descriptionText.bottom
             topMargin: 20
             horizontalCenter: parent.horizontalCenter
         }
+        visible: false  // Shown only, if connected.
         userName: facebook.name
         imageSource: "gfx/f_logo.png"
     }
@@ -85,6 +84,7 @@ Page {
             horizontalCenter: parent.horizontalCenter
         }
         text: qsTr("Connect to Twitter")
+
         onClicked: {
             busyIndicatorLoader.loading = true;
             // TODO! Check the authenticate return value!
@@ -95,12 +95,12 @@ Page {
     SocialMediaItem {
         id: twitterConnected
 
-        visible: false  // Shown only, if connected.
         anchors {
             top: facebookButton.bottom
             topMargin: 20
             horizontalCenter: parent.horizontalCenter
         }
+        visible: false  // Shown only, if connected.
         userName: twitter.name
         imageSource: "gfx/t_logo.png"
     }
@@ -137,8 +137,10 @@ Page {
 
     Connections {
         target: twitter
+
         onAuthenticateCompleted: {
             busyIndicatorLoader.loading = false;
+
             if (success) {
                 // Save the access token etc.
                 twitter.storeCredentials();
@@ -152,8 +154,10 @@ Page {
 
     Connections {
         target: facebook
+
         onAuthenticateCompleted: {
             busyIndicatorLoader.loading = false;
+
             if (success) {
                 facebook.storeCredentials();
                 facebookButton.visible = false;
@@ -166,6 +170,7 @@ Page {
     tools: ToolBarLayout {
         ToolButton {
             iconSource: "toolbar-back"
+
             onClicked: {
                 if (webViewLoader.active) {
                     busyIndicatorLoader.loading = false;
@@ -179,8 +184,10 @@ Page {
 
         ToolButton {
             id: continueButton
+
             enabled: false
             text: qsTr("Continue")
+
             onClicked: {
                 pageStack.replace(Qt.resolvedUrl("ShoutPage.qml"),
                                  {pageStack: pageStack,

@@ -8,7 +8,7 @@ Item {
     id: socialMediaItem
 
     property alias imageSource: socialMediaIcon.source
-    property string userName: "Matti Meikalainen"
+    property string userName: ""
 
     width: childrenRect.width
     height: 32

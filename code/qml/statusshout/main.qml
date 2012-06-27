@@ -23,15 +23,15 @@ Window {
         if (!facebookConnection.authenticated && !twitterConnection.authenticated) {
             pageStack.push(Qt.resolvedUrl("LaunchWizardPage.qml"),
                           {pageStack: pageStack,
-                           webIf: webInterface,
+                           facebook: facebookConnection,
                            twitter: twitterConnection,
-                           facebook: facebookConnection});
+                           webIf: webInterface});
         } else {
             pageStack.push(Qt.resolvedUrl("ShoutPage.qml"),
                           {pageStack: pageStack,
-                           webIf: webInterface,
+                           facebook: facebookConnection,
                            twitter: twitterConnection,
-                           facebook: facebookConnection});
+                           webIf: webInterface});
         }
     }
 
@@ -47,19 +47,19 @@ Window {
 
     Image {
         anchors.fill: pageStack
-        source: width > height ? "gfx/background_landscape.png" : "gfx/background.png"
+        source: cp_inPortrait ? "gfx/background.png" : "gfx/background_landscape.png"
     }
 
     PageStack {
         id: pageStack
 
-        toolBar: toolbar
         anchors {
             top: statusbar.bottom
             bottom: toolbar.top
             left: parent.left
             right: parent.right
         }
+        toolBar: toolbar
     }
 
     WebInterface {
@@ -74,7 +74,7 @@ Window {
         consumerSecret: "GCJgN1mh4rtBjB8ZjDaOEoZ83hqbOyjufJThw50I"
         callbackUrl: "http://projects.developer.nokia.com/statusshout"
 
-        onAuthenticateCompleted: console.log("TWITTER onAuthenticateCompleted! Success: " + success)
+        onAuthenticateCompleted: console.debug("TWITTER onAuthenticateCompleted! Success: " + success)
     }
 
     FacebookConnection {
@@ -84,11 +84,12 @@ Window {
         permissions: ["publish_stream", "read_stream", "friends_status"]
         clientId: "399096860123557"
 
-        onAuthenticateCompleted: console.log("FACEBOOK onAuthenticateCompleted! Success: " + success)
+        onAuthenticateCompleted: console.debug("FACEBOOK onAuthenticateCompleted! Success: " + success)
     }
 
     ToolBarLayout {
         id: toolBarLayout
+
         ToolButton {
             flat: true
             iconSource: "toolbar-back"

@@ -20,11 +20,14 @@ Page {
             left: parent.left
             leftMargin: 4
         }
-        color: platformStyle.colorNormalLight
+
+        font {
+            bold: true
+            pixelSize: platformStyle.fontSizeLarge
+        }
         width: parent.width
+        color: platformStyle.colorNormalLight
         horizontalAlignment: Text.AlignLeft
-        font.pixelSize: platformStyle.fontSizeLarge
-        font.bold: true
         text: qsTr("Status Shout!")
     }
 
@@ -46,7 +49,7 @@ Page {
                    "<p>Status Shout! application is a Nokia Developer example " +
                    "demonstrating the use of the " +
                    "<a href=\"http://projects.developer.nokia.com/socialconnect/wiki\">" +
-                   "SocialConnect library</a>. " +
+                   "Social Connect</a> QML Plugin. " +
                    "Currently supported social medias are Facebook and Twitter. " +
                    "<p>Developed and published by Nokia. All rights reserved.</p>" +
                    "<p>Learn more at " +
