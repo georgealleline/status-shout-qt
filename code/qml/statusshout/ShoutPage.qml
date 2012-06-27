@@ -17,7 +17,9 @@ Page {
     // Private functions
     function __sendMessage() {
         var message = shoutText.text;
-        console.debug("SEND, message: " + message);
+        var image = shoutBottombar.url;
+        console.debug("SEND, message: " + message
+                      + (image !== "" ? " , with image: " + image : ""));
         var tooLong = __checkCharLimit(message)
 
         if (titleBar.sendToTwitter && tooLong) {
@@ -26,12 +28,14 @@ Page {
         } else {
 
             if (titleBar.sendToTwitter) {
-                twitter.postMessage({"text": message});
+                twitter.postMessage({"text": message,
+                                     "url": image});
                 busyIndicatorLoader.loading = true;
             }
 
             if (titleBar.sendToFacebook) {
-                facebook.postMessage({"text": message});
+                facebook.postMessage({"text": message,
+                                      "url": image});
                 busyIndicatorLoader.loading = true;
             }
         }
@@ -45,6 +49,7 @@ Page {
 
         if (success) {
             shoutText.text = "";
+            shoutBottombar.url = "";
         }
     }
 
@@ -144,6 +149,8 @@ Page {
     }
 
     ShoutBottomBar {
+        id: shoutBottombar
+
         anchors {
             top: inputBackground.bottom
             bottom: parent.bottom

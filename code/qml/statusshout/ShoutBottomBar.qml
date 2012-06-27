@@ -11,7 +11,7 @@ Loader {
     property PageStack pageStack
     property string url
 
-    Component.onCompleted: sourceComponent = buttonGroup
+    sourceComponent: url != "" ? imagePreview : buttonGroup
 
     // Component defining "Take Image" & "From Gallery" buttons.
     Component {
@@ -35,7 +35,7 @@ Loader {
                     text: qsTr("+ new picture")
                     fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
                                             : platformStyle.fontSizeSmall
-                    onClicked: console.log("TAKE A PICTURE!")
+                    onClicked: console.log("TAKE A PICTURE! NOT IMPLEMENTED YET!")
                 }
             }
 
@@ -104,7 +104,6 @@ Loader {
                 text: "X"
 
                 onClicked: {
-                    bottomBanner.sourceComponent = buttonGroup;
                     bottomBanner.url = "";
                 }
             }
@@ -117,10 +116,7 @@ Loader {
         id: imagePickerPageComp
 
         ImagePickerPage {
-            onSelected: {
-                bottomBanner.url = url;
-                bottomBanner.sourceComponent = imagePreview;
-            }
+            onSelected: bottomBanner.url = url;
         }
     }
 }
