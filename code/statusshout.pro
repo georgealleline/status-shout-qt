@@ -12,7 +12,7 @@ HEADERS += loadhelper.h
 SOURCES += loadhelper.cpp main.cpp
 
 # Version number & version string definition (for using it inside the app)
-VERSION = 0.2.0
+VERSION = 1.0.0
 VERSTR = '\\"$${VERSION}\\"'
 DEFINES += VER=\"$${VERSTR}\"
 
