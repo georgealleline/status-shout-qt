@@ -35,7 +35,11 @@ Loader {
                     text: qsTr("+ new picture")
                     fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
                                             : platformStyle.fontSizeSmall
-                    onClicked: console.log("TAKE A PICTURE! NOT IMPLEMENTED YET!")
+                    onClicked: {
+                        dlgLoader.sourceComponent = errorDlg;
+                        dlgLoader.item.open();
+                        console.log("TAKE A PICTURE! NOT IMPLEMENTED YET!");
+                    }
                 }
             }
 
@@ -117,6 +121,26 @@ Loader {
 
         ImagePickerPage {
             onSelected: bottomBanner.url = url;
+        }
+    }
+
+    // TODO! Implement the camera functionality and remove this!
+    Loader {
+        id: errorDlgLoader
+
+        anchors.centerIn: parent
+
+        Component {
+            id: errorDlg
+
+            QueryDialog {
+                anchors.centerIn: parent
+                titleText: qsTr("Error")
+                message: qsTr("Feature not implemented yet!\n")
+
+                acceptButtonText: qsTr(":(")
+                onAccepted: errorDlgLoader.sourceComponent = undefined
+            }
         }
     }
 }
