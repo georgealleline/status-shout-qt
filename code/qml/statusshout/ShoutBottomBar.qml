@@ -93,6 +93,7 @@ Loader {
                 anchors.centerIn: parent
                 width: previewItem.width * 0.9
                 height: previewItem.height * 0.9
+                sourceSize.height: previewItem.height * 0.9
                 fillMode: Image.PreserveAspectFit
 
                 source: bottomBanner.url
