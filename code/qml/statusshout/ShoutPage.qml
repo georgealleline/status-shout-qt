@@ -4,7 +4,7 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import SocialConnect 0.1
+import SocialConnect 1.0
 
 Page {
     id: shoutPage
@@ -97,7 +97,8 @@ Page {
         width: parent.width
         clip: true
         source: cp_inPortrait ? "gfx/text_box_pattern.png"
-                              : "gfx/text_box_pattern_landscape.png"
+                              : cp_isE6 ? "gfx/text_box_pattern_landscape_e6.png"
+                                        : "gfx/text_box_pattern_landscape.png"
 
         Flickable {
             id: shoutFlick

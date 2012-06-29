@@ -4,7 +4,7 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import SocialConnect 0.1
+import SocialConnect 1.0
 
 Page {
     id: launchWizardPage
@@ -20,7 +20,7 @@ Page {
 
         anchors {
             top: parent.top
-            topMargin: 30
+            topMargin: cp_isE6 ? 15 : 30
             horizontalCenter: parent.horizontalCenter
         }
         width: parent.width * 0.8

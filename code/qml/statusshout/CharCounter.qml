@@ -18,7 +18,7 @@ Image {
         height: parent.height
         anchors {
             top: parent.top
-            topMargin: 10
+            topMargin: cp_isE6 ? 3 : 10
             horizontalCenter: parent.horizontalCenter
         }
 

@@ -4,7 +4,7 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import SocialConnect 0.1
+import SocialConnect 1.0
 
 Window {
     id: window
@@ -12,6 +12,8 @@ Window {
     // Define one "context property", to be used for checking
     // the current screen orientation.
     property bool cp_inPortrait: window.inPortrait
+    // Another "context property" for E6 specific differentiation.
+    property bool cp_isE6: window.height == 480
 
     Component.onCompleted: {
         // Try to restore the saved credentials
@@ -47,7 +49,9 @@ Window {
 
     Image {
         anchors.fill: pageStack
-        source: cp_inPortrait ? "gfx/background.png" : "gfx/background_landscape.png"
+        source: cp_inPortrait ? "gfx/background.png"
+                              : cp_isE6 ? "gfx/background_landscape_e6.png"
+                                        : "gfx/background_landscape.png"
     }
 
     PageStack {

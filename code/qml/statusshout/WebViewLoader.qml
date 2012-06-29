@@ -4,7 +4,7 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import SocialConnect 0.1
+import SocialConnect 1.0
 import QtWebKit 1.0
 
 // Loader for the Web view to show the OAuth login. The loader will handle

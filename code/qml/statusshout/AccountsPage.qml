@@ -4,7 +4,7 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import SocialConnect 0.1
+import SocialConnect 1.0
 
 Page {
     id: accountsPage
