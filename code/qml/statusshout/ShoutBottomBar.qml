@@ -20,35 +20,32 @@ Loader {
         Item {
             anchors.fill: parent
 
-            Item {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                }
-                width: parent.width / 2
-
-                ImageButton {
-                    id: cameraButton
-
-                    anchors.centerIn: parent
-                    source: cp_inPortrait ? "gfx/camera.png" : "gfx/camera_landscape.png"
-                    text: qsTr("+ new picture")
-                    fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
-                                            : platformStyle.fontSizeSmall
-                    onClicked: {
-                        dlgLoader.sourceComponent = errorDlg;
-                        dlgLoader.item.open();
-                        console.log("TAKE A PICTURE! NOT IMPLEMENTED YET!");
-                    }
-                }
-            }
+            // A Feature Idea - Implement an option to take the picture with
+            // camera and let the user to either keep it or discard it.
+//            Item {
+//                anchors {
+//                    verticalCenter: parent.verticalCenter
+//                    left: parent.left
+//                }
+//                width: parent.width / 2
+//
+//                ImageButton {
+//                    id: cameraButton
+//
+//                    anchors.centerIn: parent
+//                    source: cp_inPortrait ? "gfx/camera.png" : "gfx/camera_landscape.png"
+//                    text: qsTr("+ new picture")
+//                    fontSize: cp_inPortrait ? platformStyle.fontSizeLarge
+//                                            : platformStyle.fontSizeSmall
+//                }
+//            }
 
             Item {
                 anchors {
                     verticalCenter: parent.verticalCenter
                     right: parent.right
                 }
-                width: parent.width / 2
+                width: parent.width
 
                 ImageButton {
                     id: galleryButton
@@ -122,26 +119,6 @@ Loader {
 
         ImagePickerPage {
             onSelected: bottomBanner.url = url;
-        }
-    }
-
-    // TODO! Implement the camera functionality and remove this!
-    Loader {
-        id: errorDlgLoader
-
-        anchors.centerIn: parent
-
-        Component {
-            id: errorDlg
-
-            QueryDialog {
-                anchors.centerIn: parent
-                titleText: qsTr("Error")
-                message: qsTr("Feature not implemented yet!\n")
-
-                acceptButtonText: qsTr(":(")
-                onAccepted: errorDlgLoader.sourceComponent = undefined
-            }
         }
     }
 }
