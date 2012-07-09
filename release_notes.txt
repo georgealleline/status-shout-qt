@@ -1,24 +1,24 @@
 Status Shout! v1.0
 ==================
 
-The Status Shout! example application showcases the use of social medias (i.e.
-Twitter & Facebook), OAuth authentication and posting status update messages
+The Status Shout! example application demonstrates the use of social media (in this case,
+Twitter & Facebook), OAuth authentication, and posting status update messages
 with images.
 
-The Status Shout! application uses the ?Social Connect QML plugin, which handles
-authentication of the application to different social medias and can be easily
-utilised by developers in their own applications. The application also uses the
+The Status Shout! application uses the Social Connect QML plug-in, which handles
+authentication of the application to different social media and can be easily
+utilised in other applications. The application also uses the
 official Qt Quick Components for navigation and UI.
 
-The Social Connect QML plugin used in the Status Shout! example application is
-available at: http://projects.developer.nokia.com/socialconnect
+The Social Connect QML plug-in used in the Status Shout! example application is
+available at http://projects.developer.nokia.com/socialconnect
 
 The Status Shout! uses Qt Quick Components in numerous places. For
 example, when navigating deeper into the application, the PageStack is used.
-The StatusBar and ToolBar (with all the ToolButtons etc.) are used as well.
+The StatusBar and ToolBar (with all the ToolButtons etc.) are also used.
 
 This example application demonstrates:
-- Using the Social Connect QML plugin:
+- Using the Social Connect QML plug-in:
   - Authentication with OAuth (versions 1.0 & 2.0).
   - Posting a message to social media services.
 - Using Qt Quick Components in an application that supports multiple
@@ -36,12 +36,12 @@ For more information on the implementation, visit the wiki page:
 1. Usage
 -------------------------------------------------------------------------------
 
-The customised Social Connect QML plugin can be taken into use in 3rd party
+The customised Social Connect QML plug-in can be taken into use 
 either by linking it statically into the application, or by using it "as is"
 by merely adding the socialconnect.sis file into the .pro file (as has been
 done in the Status Shout! example application).
 
-Follow the step-by-step guide from the Social Connect wiki for more details:
+Follow the step-by-step guide from the Social Connect plug-in wiki for more details:
 - http://projects.developer.nokia.com/socialconnect/wiki/GettingStarted
 
 
@@ -105,7 +105,7 @@ QML elements from Qt Quick Components:
 - ScrollDecorator
 - QueryDialog
 
-QML elements from Social Connect QML plugin:
+QML elements from the Social Connect QML plug-in:
 - FacebookConnection
 - TwitterConnection
 - WebInterface
@@ -127,18 +127,18 @@ Developed with:
 4.1 Required capabilities
 -------------------------
 
-NetworkServices and ReadUserData. Required for the Social Connect QML plugin
+NetworkServices and ReadUserData. Required for the Social Connect QML plug-in
 to work correctly with network. The application can be self signed on Symbian.
 
 4.2 Known issues and design limitations
 ---------------------------------------
 
 Camera button not working properly:
-- Functionality for taking a picture with the camera isn't implemented yet.
+- Functionality for taking a picture with the camera has not yet been implemented.
 
 Gallery button not working properly:
-- Functionality for selecting a picture from the device's gallery isn't
-  implemented yet.
+- Functionality for selecting a picture from the device's gallery has not yet been
+  implemented.
 
 
 5. Building, installing, and running the application
