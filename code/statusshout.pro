@@ -1,8 +1,8 @@
 # Copyright (c) 2012 Nokia Corporation.
 
 # Basic Qt configuration
-QT += declarative mobility
-CONFIG += qt qt-components
+QT += declarative
+CONFIG += qt qt-components mobility
 TARGET = StatusShout
 # If your application uses the Qt Mobility libraries, uncomment the following
 # lines and add the respective components to the MOBILITY variable.
